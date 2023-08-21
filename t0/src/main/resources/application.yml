@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521:xe
+    username: t0
+    password: t0
+    driver-class-name: oracle.jdbc.OracleDriver
+
+    hikari:
+      maximum-pool-size: 10
+      poolName: HikariPoolt0
+      minimumIdle: 5
+      maximumPoolSize: 20
+      idleTimeout: 600000
+      maxLifetime: 1800000
+      connectionTimeout: 30000
+  jpa:
+    database-platform: org.hibernate.dialect.Oracle12cDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
