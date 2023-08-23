@@ -6,4 +6,4 @@ services:
     environment:
       ORACLE_PWD: "spring3-oracle-db"
     ports:
-      - "1521:1521"
+      - "1522:1521"
