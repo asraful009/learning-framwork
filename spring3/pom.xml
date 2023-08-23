@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.cyber009.spring3</groupId>
-	<artifactId>t0</artifactId>
+	<artifactId>spring3</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>t0</name>
 	<description>spring3-t0 project for Spring Boot</description>
