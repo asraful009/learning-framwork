@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { CTableComponent } from './c-table/c-table.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { OfficeComponent } from './office/office.component';
@@ -19,6 +20,7 @@ import { OfficeComponent } from './office/office.component';
     MatGridListModule,
     FormsModule,
     MatInputModule,
+    MatSlideToggleModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
