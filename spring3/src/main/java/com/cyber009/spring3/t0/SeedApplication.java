@@ -1,33 +1,26 @@
 package com.cyber009.spring3.t0;
 
 import com.cyber009.spring3.t0.seed.OfficeSeedService;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
-@ComponentScan("com.cyber009.spring3.t0.seed")
-@RequiredArgsConstructor
 @Slf4j
 public class SeedApplication {
-    private final OfficeSeedService officeSeedService;
     public static void main(String[] args) {
-        SpringApplicationBuilder applicationBuilder =
+        ConfigurableApplicationContext context =
                 new SpringApplicationBuilder(SeedApplication.class)
-                        .web(WebApplicationType.NONE);
-        applicationBuilder.run(args);
+                        .web(WebApplicationType.NONE).run(args);
+        runSeed(context);
+        context.close();
     }
 
-    @Bean
-    public CommandLineRunner run() {
-        return args -> {
-            officeSeedService.seedOffice();
-        };
+
+    public static void runSeed(ConfigurableApplicationContext context) {
+        OfficeSeedService officeSeedService = context.getBean(OfficeSeedService.class);
+        officeSeedService.seedOffice();
     }
 }
