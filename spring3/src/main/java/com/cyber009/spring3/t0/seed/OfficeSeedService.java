@@ -8,12 +8,15 @@ import com.github.javafaker.Faker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
+
+import java.util.Optional;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class OfficeSeedService {
-    private WebService webService;
+    private final WebService webService;
 
     public void seedOffice() {
         Faker faker = new Faker();
@@ -23,7 +26,8 @@ public class OfficeSeedService {
         String json = null;
         try {
             json = objectMapper.writeValueAsString(param);
-            log.info("param: {}", json);
+            Optional<String> opRes = webService.postDataToApi("/office", json).blockOptional();
+            log.info("param: {} -> {}", json, opRes);
 
         } catch (JsonProcessingException e) {
             log.error(e.getMessage());
