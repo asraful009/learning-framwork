@@ -12,13 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/office")
+@RequiredArgsConstructor
 public class OfficeController {
     private final OfficeService officeService;
 
-    @Autowired
-    public OfficeController(OfficeService officeService) {
-        this.officeService = officeService;
-    }
+
     @PostMapping
     public OfficeDto save(@RequestBody OfficeParam param) {
         return officeService.save(param);

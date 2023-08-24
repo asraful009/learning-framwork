@@ -8,13 +8,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class OfficeService {
 
     private final OfficeRepository officeRepository;
-
-    public OfficeService(OfficeRepository officeRepository) {
-        this.officeRepository = officeRepository;
-    }
 
     public OfficeDto save(OfficeParam param) {
 

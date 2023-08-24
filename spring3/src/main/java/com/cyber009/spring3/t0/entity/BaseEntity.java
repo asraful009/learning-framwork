@@ -6,6 +6,7 @@ import jakarta.persistence.Version;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import jakarta.persistence.Id;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
 
@@ -24,9 +25,10 @@ public class BaseEntity {
     private UUID id;
 
     @Version
-    private Integer version;
+    @Builder.Default
+    private Integer version = 0;
 
-    @CreatedDate
+    @CreationTimestamp
     private LocalDateTime createAt;
 
 
