@@ -1,9 +1,6 @@
 package com.cyber009.spring3.t0.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -22,6 +19,10 @@ public class Office extends BaseEntity {
     @Column(columnDefinition = "NVARCHAR2(1024)")
     private String name;
 
+    @ManyToOne
+    @JoinColumn(name = "office_id")
+    private Office parentOffice;
 
-//    private List<Office> officeList;
+    @OneToMany(mappedBy = "parentOffice")
+    private List<Office> childOffices;
 }

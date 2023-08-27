@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,17 +22,21 @@ public class OfficeSeedService {
 
     public void seedOffice() {
         Faker faker = new Faker();
-        OfficeParam param = OfficeParam.builder().build();
-        param.setName(faker.name().fullName());
+        List<OfficeParam> params = new LinkedList<>();
+        for(int i = 0; i<faker.number().numberBetween(60, 125); i++ )
+            params.add(OfficeParam.builder().name(faker.company().name()).build());
         ObjectMapper objectMapper = new ObjectMapper();
         String json = null;
-        try {
-            json = objectMapper.writeValueAsString(param);
-            Optional<String> opRes = webService.postDataToApi("/office", json).blockOptional();
-            log.info("param: {} -> {}", json, opRes);
+        for(int i = 0; i<params.size(); i++ ) {
+            try {
 
-        } catch (JsonProcessingException e) {
-            log.error(e.getMessage());
+                json = objectMapper.writeValueAsString(params.get(i));
+                Optional<String> opRes = webService.postDataToApi("/office", json).blockOptional();
+                log.info("param: {} -> {}", json, opRes);
+
+            } catch (JsonProcessingException e) {
+                log.error(e.getMessage());
+            }
         }
     }
 
