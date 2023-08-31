@@ -1,7 +1,7 @@
 package com.cyber009.spring3.t0.seed;
 
 import com.cyber009.spring3.t0.common.param.AddressParam;
-import com.cyber009.spring3.t0.param.OfficeParam;
+import com.cyber009.spring3.t0.param.office.OfficeParam;
 import com.cyber009.spring3.t0.service.WebService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,7 +9,6 @@ import com.github.javafaker.Faker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Mono;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -24,7 +23,7 @@ public class OfficeSeedService {
     public void seedOffice() {
         Faker faker = new Faker();
         List<OfficeParam> params = new LinkedList<>();
-        for(int i = 0; i<faker.number().numberBetween(60, 125); i++ )
+        for(int i = 0; i<faker.number().numberBetween(2, 3); i++ ) {
             params.add(OfficeParam.builder()
                     .name(faker.company().name())
                     .addressParam(AddressParam.builder()
@@ -36,6 +35,7 @@ public class OfficeSeedService {
                             .postalCode(faker.address().zipCode())
                             .build())
                     .build());
+        }
         ObjectMapper objectMapper = new ObjectMapper();
         String json = null;
         for(int i = 0; i<params.size(); i++ ) {

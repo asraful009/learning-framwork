@@ -4,7 +4,7 @@ import com.cyber009.spring3.t0.common.mapper.AddressMapper;
 import com.cyber009.spring3.t0.config.CommonMapperConfig;
 import com.cyber009.spring3.t0.dto.OfficeDto;
 import com.cyber009.spring3.t0.entity.Office;
-import com.cyber009.spring3.t0.param.OfficeParam;
+import com.cyber009.spring3.t0.param.office.OfficeParam;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -20,4 +20,11 @@ public interface OfficeMapper {
             @Mapping(target = "addressDto", source = "address")
     })
     OfficeDto entityToDto(Office entity);
+
+    @Mappings({
+            @Mapping(target = "addressDto", source = "address"),
+            @Mapping(target = "parentOfficeDto", ignore = true),
+            @Mapping(target = "childOfficeDtos", ignore = true),
+    })
+    OfficeDto entityToSimpleDto(Office entity);
 }

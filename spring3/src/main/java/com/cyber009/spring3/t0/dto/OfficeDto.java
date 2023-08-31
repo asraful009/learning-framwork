@@ -5,6 +5,8 @@ import com.cyber009.spring3.t0.common.dto.AddressDto;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -14,4 +16,6 @@ import lombok.experimental.SuperBuilder;
 public class OfficeDto extends BaseDto {
     private String name;
     private AddressDto addressDto;
+    private OfficeDto parentOfficeDto;
+    private List<OfficeDto> childOfficeDtos;
 }
