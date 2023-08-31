@@ -3,7 +3,17 @@ services:
   oracle-xe:
     container_name: "spring3-oracle-db"
     image: container-registry.oracle.com/database/express:21.3.0-xe
+    volumes:
+      - db:/opt/oracle/oradata
     environment:
-      ORACLE_PWD: "spring3-oracle-db"
+      ORACLE_PWD: "db"
     ports:
       - "1522:1521"
+volumes:
+  db:
+    driver: local
+    name: "spring3-oracle-db"
+    driver_opts:
+      type: none
+      o: bind
+      device: spring3-oracle-db

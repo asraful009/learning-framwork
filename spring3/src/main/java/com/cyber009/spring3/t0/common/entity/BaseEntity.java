@@ -1,4 +1,4 @@
-package com.cyber009.spring3.t0.entity;
+package com.cyber009.spring3.t0.common.entity;
 
 
 import jakarta.persistence.MappedSuperclass;

@@ -1,5 +1,7 @@
 package com.cyber009.spring3.t0.service;
 
+import com.cyber009.spring3.t0.common.entity.Address;
+import com.cyber009.spring3.t0.common.mapper.AddressMapper;
 import com.cyber009.spring3.t0.dto.OfficeDto;
 import com.cyber009.spring3.t0.entity.Office;
 import com.cyber009.spring3.t0.mapper.OfficeMapper;
@@ -17,6 +19,7 @@ public class OfficeService {
 
     private final OfficeRepository officeRepository;
     private final OfficeMapper officeMapper;
+    private final AddressMapper addressMapper;
 
     public OfficeDto save(OfficeParam param) {
         Office entity = Office.builder().build();
@@ -24,6 +27,7 @@ public class OfficeService {
         Optional<Office> opEntity = officeRepository.findTopByNameOrderByCreateAt(param.getName());
         if(opEntity.isPresent()) entity = opEntity.get();
         paramToEntity(param, entity);
+        entity.setId(UUID.randomUUID());
         entity = officeRepository.save(entity);
         OfficeDto dto = entityToDto(entity);
         return dto;
@@ -31,7 +35,12 @@ public class OfficeService {
 
     private void paramToEntity(OfficeParam param, Office entity) {
         officeMapper.paramToEntity(param, entity);
-        entity.setId(UUID.randomUUID());
+        Address officeAddress = entity.getAddress();
+        if(officeAddress == null) {
+            officeAddress = Address.builder().id(UUID.randomUUID()).build();
+            entity.setAddress(officeAddress);
+        }
+        addressMapper.paramToEntity(param.getAddressParam(), officeAddress);
     }
 
     private OfficeDto entityToDto(Office entity) {

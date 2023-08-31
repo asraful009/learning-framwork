@@ -36,7 +36,7 @@ public class WorkFlowService {
         paramToEntity(param, entity);
         entity.setId(UUID.randomUUID());
         entity = workFlowRepository.save(entity);
-        OfficeDto dto = entityToDto(entity);
+        WorkFlowDto dto = entityToDto(entity);
         return dto;
     }
 

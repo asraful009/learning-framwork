@@ -1,5 +1,6 @@
 package com.cyber009.spring3.t0.seed;
 
+import com.cyber009.spring3.t0.common.param.AddressParam;
 import com.cyber009.spring3.t0.param.OfficeParam;
 import com.cyber009.spring3.t0.service.WebService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -24,7 +25,17 @@ public class OfficeSeedService {
         Faker faker = new Faker();
         List<OfficeParam> params = new LinkedList<>();
         for(int i = 0; i<faker.number().numberBetween(60, 125); i++ )
-            params.add(OfficeParam.builder().name(faker.company().name()).build());
+            params.add(OfficeParam.builder()
+                    .name(faker.company().name())
+                    .addressParam(AddressParam.builder()
+                            .mobile(faker.phoneNumber().cellPhone())
+                            .email(faker.internet().emailAddress())
+                            .addressLine(faker.address().fullAddress())
+                            .city(faker.address().city())
+                            .country(faker.address().country())
+                            .postalCode(faker.address().zipCode())
+                            .build())
+                    .build());
         ObjectMapper objectMapper = new ObjectMapper();
         String json = null;
         for(int i = 0; i<params.size(); i++ ) {

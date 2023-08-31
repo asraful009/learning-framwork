@@ -1,6 +1,7 @@
 package com.cyber009.spring3.t0.param;
 
 
+import com.cyber009.spring3.t0.common.param.AddressParam;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -12,4 +13,5 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode
 public class OfficeParam {
     private String name;
+    private AddressParam addressParam;
 }
