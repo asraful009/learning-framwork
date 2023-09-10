@@ -2,11 +2,16 @@ package com.cyber009.spring3.t0.service;
 
 import com.cyber009.spring3.t0.common.entity.Address;
 import com.cyber009.spring3.t0.common.mapper.AddressMapper;
+import com.cyber009.spring3.t0.dto.AppUserDto;
 import com.cyber009.spring3.t0.dto.OfficeDto;
+import com.cyber009.spring3.t0.entity.AppUser;
 import com.cyber009.spring3.t0.entity.Office;
+import com.cyber009.spring3.t0.mapper.AppUserMapper;
 import com.cyber009.spring3.t0.mapper.OfficeMapper;
+import com.cyber009.spring3.t0.param.appuser.AppUserParam;
 import com.cyber009.spring3.t0.param.office.OfficeParam;
 import com.cyber009.spring3.t0.param.office.SearchOfficeParam;
+import com.cyber009.spring3.t0.repository.AppUserRepository;
 import com.cyber009.spring3.t0.repository.OfficeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,31 +22,31 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class OfficeService {
+public class AppUserService {
 
-    private final OfficeRepository officeRepository;
-    private final OfficeMapper officeMapper;
+    private final AppUserRepository appUserRepository;
+    private final AppUserMapper appUserMapper;
     private final AddressMapper addressMapper;
 
-    public Page<OfficeDto> findAll(SearchOfficeParam param) {
-        Page<Office> entities = officeRepository.findAll(param.getPageable());
+    public Page<AppUserDto> findAll(SearchOfficeParam param) {
+        Page<AppUser> entities = appUserRepository.findAll(param.getPageable());
         return entities.map(this::entityToSimpleDto);
     }
 
-    public OfficeDto save(OfficeParam param) {
-        Office entity = Office.builder().build();
+    public AppUserDto save(AppUserParam param) {
+        AppUser entity = AppUser.builder().build();
 
-        Optional<Office> opEntity = officeRepository.findTopByNameOrderByCreateAt(param.getName());
+        Optional<AppUser> opEntity = appUserRepository.findTopByNameOrderByCreateAt(param.getName());
         if(opEntity.isPresent()) entity = opEntity.get();
         paramToEntity(param, entity);
         entity.setId(UUID.randomUUID());
-        entity = officeRepository.save(entity);
-        OfficeDto dto = entityToDto(entity);
+        entity = appUserRepository.save(entity);
+        AppUserDto dto = entityToDto(entity);
         return dto;
     }
 
-    private void paramToEntity(OfficeParam param, Office entity) {
-        officeMapper.paramToEntity(param, entity);
+    private void paramToEntity(AppUserParam param, AppUser entity) {
+        appUserMapper.paramToEntity(param, entity);
         Address officeAddress = entity.getAddress();
         if(officeAddress == null) {
             officeAddress = Address.builder().id(UUID.randomUUID()).build();
@@ -50,13 +55,13 @@ public class OfficeService {
         addressMapper.paramToEntity(param.getAddressParam(), officeAddress);
     }
 
-    private OfficeDto entityToDto(Office entity) {
-        OfficeDto dto = officeMapper.entityToDto(entity);
+    private AppUserDto entityToDto(AppUser entity) {
+        AppUserDto dto = appUserMapper.entityToDto(entity);
         return dto;
     }
 
-    private OfficeDto entityToSimpleDto(Office entity) {
-        OfficeDto dto = officeMapper.entityToSimpleDto(entity);
+    private AppUserDto entityToSimpleDto(AppUser entity) {
+        AppUserDto dto = appUserMapper.entityToSimpleDto(entity);
         return dto;
     }
 }
