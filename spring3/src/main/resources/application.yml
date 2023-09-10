@@ -25,3 +25,8 @@ spring:
       hibernate:
         format_sql: true
 
+project:
+  security:
+    peppers:
+      - ed85d7102073ac03dba4497351f0c4f3bceb729bf7b210ed4202290c227259a82b6b6dbb89c173077a4dc77865be8498
+      - 1d85d7102073ac03dba4497351f0c4f3bceb729bf7b210ed4202290c227259a82b6b6dbb89c173077a4dc77865be8498

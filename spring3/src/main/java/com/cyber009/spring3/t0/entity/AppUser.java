@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "app_users", indexes = {
-        @Index(columnList = "name")
+        @Index(columnList = "userName")
 })
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,8 +20,17 @@ import java.util.List;
 @ToString(callSuper = true)
 public class AppUser extends BaseEntity {
 
+    @Column(columnDefinition = "NVARCHAR2(1024)", nullable = false)
+    private String userName;
+
     @Column(columnDefinition = "NVARCHAR2(1024)")
-    private String name;
+    private String fullName;
+
+    @Column(columnDefinition = "VARCHAR2(4000)")
+    private String salt;
+
+    @Column(columnDefinition = "VARCHAR2(4000)")
+    private String hashPassword;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")

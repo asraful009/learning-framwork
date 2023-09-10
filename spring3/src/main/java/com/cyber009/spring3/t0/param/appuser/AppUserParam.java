@@ -12,6 +12,8 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @EqualsAndHashCode
 public class AppUserParam {
-    private String name;
+    private String userName;
+    private String fullName;
+    private String password;
     private AddressParam addressParam;
 }

@@ -1,30 +1,30 @@
 package com.cyber009.spring3.t0.controller;
 
-import com.cyber009.spring3.t0.dto.OfficeDto;
-import com.cyber009.spring3.t0.param.office.OfficeParam;
-import com.cyber009.spring3.t0.param.office.SearchOfficeParam;
-import com.cyber009.spring3.t0.service.OfficeService;
+import com.cyber009.spring3.t0.dto.AppUserDto;
+import com.cyber009.spring3.t0.param.appuser.AppUserParam;
+import com.cyber009.spring3.t0.param.appuser.SearchAppUserParam;
+import com.cyber009.spring3.t0.service.AppUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/office")
+@RequestMapping("/app-user")
 @RequiredArgsConstructor
 @Slf4j
 public class AppUserController {
-    private final OfficeService officeService;
+    private final AppUserService appUserService;
 
 
     @GetMapping
-    public Page<OfficeDto> findAll(@ModelAttribute SearchOfficeParam param) {
+    public Page<AppUserDto> findAll(@ModelAttribute SearchAppUserParam param) {
         log.info("param:", param);
         return null;
     }
 
     @PostMapping
-    public OfficeDto save(@RequestBody OfficeParam param) {
-        return officeService.save(param);
+    public AppUserDto save(@RequestBody AppUserParam param) {
+        return appUserService.save(param);
     }
 }

@@ -11,5 +11,5 @@ import java.util.UUID;
 
 @Repository
 public interface AppUserRepository extends CommonRepository<AppUser, UUID> {
-    Optional<AppUser> findTopByNameOrderByCreateAt(String name);
+    Optional<AppUser> findTopByUserNameOrderByCreateAt(String userName);
 }

@@ -14,6 +14,7 @@ import java.util.List;
 @ToString
 @SuperBuilder
 public class AppUserDto extends BaseDto {
-    private String name;
+    private String userName;
+    private String fullName;
     private AddressDto addressDto;
 }

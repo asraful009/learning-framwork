@@ -14,4 +14,5 @@ import lombok.experimental.SuperBuilder;
 @ToString(callSuper = true)
 public class SearchAppUserParam extends BaseSearchParam {
     private String name;
+    private String fullName;
 }
