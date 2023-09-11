@@ -10,6 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -20,7 +21,7 @@ import java.util.UUID;
 @ToString
 @SuperBuilder
 @MappedSuperclass
-public class BaseEntity {
+public class BaseEntity implements Serializable {
     @Id
     private UUID id;
 
