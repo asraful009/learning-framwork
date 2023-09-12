@@ -53,6 +53,7 @@ public class InstanceWisePermissionService {
 
     private void paramToEntity(InstanceWisePermissionParam param, InstanceWisePermission entity) {
         entity.setAccessPolicy(param.getAccessPolicy());
+        prepareInstanceWiseAppUserHasPermission(param, entity);
     }
 
     private void prepareInstanceWiseAppUserHasPermission(InstanceWisePermissionParam param, InstanceWisePermission entity) {
@@ -73,6 +74,7 @@ public class InstanceWisePermissionService {
                     .appUserId(appUserHasPermissionParam.getAppUserId())
                     .method(appUserHasPermissionParam.getMethod())
                     .sortingOrder(sortingIndex.getAndIncrement())
+                    .instanceWisePermission(entity)
                     .build();
             instanceWiseAppUserHasPermissions.add(appUserHasPermission);
         }
