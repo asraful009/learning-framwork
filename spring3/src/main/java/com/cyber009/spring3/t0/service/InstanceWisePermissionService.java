@@ -65,7 +65,7 @@ public class InstanceWisePermissionService {
             entity.setInstanceWiseAppUserHasPermissions(instanceWiseAppUserHasPermissions);
         }
         for (InstanceWiseAppUserHasPermission instanceWiseAppUserHasPermission : instanceWiseAppUserHasPermissions) {
-//            instanceWiseAppUserHasPermission.set
+            instanceWiseAppUserHasPermission.setIsDelete(true);
         }
         AtomicInteger sortingIndex = new AtomicInteger(0);
         for (InstanceWiseAppUserHasPermissionParam appUserHasPermissionParam : appUserHasPermissionParamList) {
