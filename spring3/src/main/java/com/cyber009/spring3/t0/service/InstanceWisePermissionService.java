@@ -1,25 +1,21 @@
 package com.cyber009.spring3.t0.service;
 
-import com.cyber009.spring3.t0.common.entity.Address;
-import com.cyber009.spring3.t0.common.mapper.AddressMapper;
-import com.cyber009.spring3.t0.dto.OfficeDto;
 import com.cyber009.spring3.t0.dto.instance.InstanceWisePermissionDto;
+import com.cyber009.spring3.t0.entity.InstanceWiseAppUserHasPermission;
 import com.cyber009.spring3.t0.entity.InstanceWisePermission;
-import com.cyber009.spring3.t0.entity.Office;
 import com.cyber009.spring3.t0.event.instance.InstanceCreateEvent;
 import com.cyber009.spring3.t0.mapper.InstanceWisePermissionMapper;
-import com.cyber009.spring3.t0.mapper.OfficeMapper;
-import com.cyber009.spring3.t0.param.office.OfficeParam;
-import com.cyber009.spring3.t0.param.office.SearchOfficeParam;
-import com.cyber009.spring3.t0.repository.OfficeRepository;
+import com.cyber009.spring3.t0.param.instance.InstanceWiseAppUserHasPermissionParam;
+import com.cyber009.spring3.t0.param.instance.InstanceWisePermissionParam;
 import com.cyber009.spring3.t0.repository.instance.InstanceWisePermissionRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 @RequiredArgsConstructor
@@ -34,18 +30,52 @@ public class InstanceWisePermissionService {
 
         Optional<InstanceWisePermission> opEntity = instanceWisePermissionRepository.findTopByInstanceFromAndInstanceIdOrderByCreateAt(event.getEntityName(), event.getInstanceId());
         if(opEntity.isPresent()) entity = opEntity.get();
-        paramToEntity(event, entity);
+        eventToEntity(event, entity);
         entity.setId(UUID.randomUUID());
         entity = instanceWisePermissionRepository.save(entity);
-
-        InstanceWisePermissionDto dto = entityToDto(entity);
-        return dto;
+        return entityToDto(entity);
     }
 
-    private void paramToEntity(InstanceCreateEvent event, InstanceWisePermission entity) {
-        if(entity.getInstanceFrom() != null) entity.setInstanceFrom(event.getEntityName());
-        if(entity.getInstanceId() != null) entity.setInstanceId(event.getInstanceId());
-        if(entity.getAccessPolicy() != null) entity.setAccessPolicy("PUBLIC");
+    public InstanceWisePermissionDto update(UUID id, InstanceWisePermissionParam param) {
+        Optional<InstanceWisePermission> opEntity = instanceWisePermissionRepository.findById(id);
+        if(opEntity.isEmpty()) return null;
+        InstanceWisePermission entity = opEntity.get();
+        paramToEntity(param, entity);
+        entity = instanceWisePermissionRepository.save(entity);
+        return entityToDto(entity);
+    }
+
+    private void eventToEntity(InstanceCreateEvent event, InstanceWisePermission entity) {
+        if(entity.getInstanceFrom() == null) entity.setInstanceFrom(event.getEntityName());
+        if(entity.getInstanceId() == null) entity.setInstanceId(event.getInstanceId());
+        if(entity.getAccessPolicy() == null) entity.setAccessPolicy("PUBLIC");
+    }
+
+    private void paramToEntity(InstanceWisePermissionParam param, InstanceWisePermission entity) {
+        entity.setAccessPolicy(param.getAccessPolicy());
+    }
+
+    private void prepareInstanceWiseAppUserHasPermission(InstanceWisePermissionParam param, InstanceWisePermission entity) {
+        List<InstanceWiseAppUserHasPermissionParam> appUserHasPermissionParamList = param.getInstanceWiseAppUserHasPermissionParams();
+        if(appUserHasPermissionParamList == null || appUserHasPermissionParamList.isEmpty()) return;
+        List<InstanceWiseAppUserHasPermission> instanceWiseAppUserHasPermissions = entity.getInstanceWiseAppUserHasPermissions();
+        if(instanceWiseAppUserHasPermissions == null) {
+            instanceWiseAppUserHasPermissions = new LinkedList<>();
+            entity.setInstanceWiseAppUserHasPermissions(instanceWiseAppUserHasPermissions);
+        }
+        for (InstanceWiseAppUserHasPermission instanceWiseAppUserHasPermission : instanceWiseAppUserHasPermissions) {
+//            instanceWiseAppUserHasPermission.set
+        }
+        AtomicInteger sortingIndex = new AtomicInteger(0);
+        for (InstanceWiseAppUserHasPermissionParam appUserHasPermissionParam : appUserHasPermissionParamList) {
+            InstanceWiseAppUserHasPermission appUserHasPermission = InstanceWiseAppUserHasPermission.builder()
+                    .id(UUID.randomUUID())
+                    .appUserId(appUserHasPermissionParam.getAppUserId())
+                    .method(appUserHasPermissionParam.getMethod())
+                    .sortingOrder(sortingIndex.getAndIncrement())
+                    .build();
+            instanceWiseAppUserHasPermissions.add(appUserHasPermission);
+        }
     }
 
     private InstanceWisePermissionDto entityToDto(InstanceWisePermission entity) {
