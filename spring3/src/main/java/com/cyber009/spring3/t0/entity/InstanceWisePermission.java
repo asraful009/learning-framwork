@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.apache.commons.lang3.builder.EqualsExclude;
+import org.hibernate.annotations.SQLDelete;
 
 import java.util.List;
 import java.util.UUID;
@@ -22,6 +23,7 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @ToString(callSuper = true)
+@SQLDelete(sql = "UPDATE instance_wise_permissions SET deleted = true WHERE id=? and version=?")
 public class InstanceWisePermission extends BaseEntity {
 
 

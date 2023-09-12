@@ -1,6 +1,7 @@
 package com.cyber009.spring3.t0.common.entity;
 
 
+import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Version;
 import lombok.*;
@@ -32,5 +33,7 @@ public class BaseEntity implements Serializable {
     @CreationTimestamp
     private LocalDateTime createAt;
 
+    @Builder.Default
+    private Boolean isDelete = Boolean.FALSE;
 
 }
