@@ -5,6 +5,8 @@ import com.cyber009.spring3.t0.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.core.ApplicationContext;
 
 import java.util.List;
 
@@ -15,9 +17,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @ToString(callSuper = true)
+@Slf4j
 public class Office extends BaseEntity {
 
     @Column(columnDefinition = "NVARCHAR2(1024)")

@@ -23,7 +23,7 @@ public class OfficeSeedService {
     public void seedOffice() {
         Faker faker = new Faker();
         List<OfficeParam> params = new LinkedList<>();
-        for(int i = 0; i<faker.number().numberBetween(2, 3); i++ ) {
+        for(int i = 0; i<faker.number().numberBetween(1, 1); i++ ) {
             params.add(OfficeParam.builder()
                     .name(faker.company().name())
                     .addressParam(AddressParam.builder()

@@ -22,7 +22,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @ToString(callSuper = true)
 public class InstanceWiseAppUserHasPermission extends BaseEntity {
@@ -40,6 +40,7 @@ public class InstanceWiseAppUserHasPermission extends BaseEntity {
     private String method;
 
     @Column(name = "sorting_order", columnDefinition = "NUMBER(10) DEFAULT 0")
+    @EqualsExclude
     private Integer sortingOrder;
 }
 

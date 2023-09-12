@@ -15,8 +15,8 @@ public class SeedApplication {
         ConfigurableApplicationContext context =
                 new SpringApplicationBuilder(SeedApplication.class)
                         .web(WebApplicationType.NONE).run(args);
-        runSeedAppUser(context);
-//        runSeedOffice(context);
+//        runSeedAppUser(context);
+        runSeedOffice(context);
         context.close();
     }
 
