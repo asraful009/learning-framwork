@@ -1,4 +1,4 @@
-package com.cyber009.spring3.t0.event.instance;
+package com.cyber009.spring3.t0.common.instance;
 
 import lombok.Data;
 import lombok.Getter;

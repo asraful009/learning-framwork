@@ -4,7 +4,6 @@ import com.cyber009.spring3.t0.common.entity.Address;
 import com.cyber009.spring3.t0.common.mapper.AddressMapper;
 import com.cyber009.spring3.t0.dto.OfficeDto;
 import com.cyber009.spring3.t0.entity.Office;
-import com.cyber009.spring3.t0.event.instance.InstanceCreateEvent;
 import com.cyber009.spring3.t0.mapper.OfficeMapper;
 import com.cyber009.spring3.t0.param.office.OfficeParam;
 import com.cyber009.spring3.t0.param.office.SearchOfficeParam;
@@ -35,12 +34,12 @@ public class OfficeService {
     public OfficeDto save(OfficeParam param) {
         Office entity = Office.builder().build();
 
+
         Optional<Office> opEntity = officeRepository.findTopByNameOrderByCreateAt(param.getName());
         if(opEntity.isPresent()) entity = opEntity.get();
         paramToEntity(param, entity);
-        entity.setId(UUID.randomUUID());
+        if(entity.getId() == null) entity.setId(UUID.randomUUID());
         entity = officeRepository.save(entity);
-        emit(entity);
         OfficeDto dto = entityToDto(entity);
         return dto;
     }
@@ -65,8 +64,5 @@ public class OfficeService {
         return dto;
     }
 
-    private void emit(Office entity) {
-        InstanceCreateEvent event = new InstanceCreateEvent(this, entity.getId(), entity.getClass().getName());
-        eventPublisher.publishEvent(event);
-    }
+
 }

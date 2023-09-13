@@ -3,12 +3,16 @@ package com.cyber009.spring3.t0.service;
 import com.cyber009.spring3.t0.dto.instance.InstanceWisePermissionDto;
 import com.cyber009.spring3.t0.entity.InstanceWiseAppUserHasPermission;
 import com.cyber009.spring3.t0.entity.InstanceWisePermission;
-import com.cyber009.spring3.t0.event.instance.InstanceCreateEvent;
+import com.cyber009.spring3.t0.common.instance.InstanceCreateEvent;
 import com.cyber009.spring3.t0.mapper.InstanceWisePermissionMapper;
 import com.cyber009.spring3.t0.param.instance.InstanceWiseAppUserHasPermissionParam;
 import com.cyber009.spring3.t0.param.instance.InstanceWisePermissionParam;
 import com.cyber009.spring3.t0.repository.instance.InstanceWisePermissionRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -24,16 +28,18 @@ public class InstanceWisePermissionService {
     private final InstanceWisePermissionRepository instanceWisePermissionRepository;
     private final InstanceWisePermissionMapper instanceWisePermissionMapper;
 
-
-    public InstanceWisePermissionDto save(InstanceCreateEvent event) {
+    @Async
+    public void save(InstanceCreateEvent event) {
         InstanceWisePermission entity = InstanceWisePermission.builder().build();
 
         Optional<InstanceWisePermission> opEntity = instanceWisePermissionRepository.findTopByInstanceFromAndInstanceIdOrderByCreateAt(event.getEntityName(), event.getInstanceId());
         if(opEntity.isPresent()) entity = opEntity.get();
         eventToEntity(event, entity);
         entity.setId(UUID.randomUUID());
+//        Session session = sessionFactory.getCurrentSession();
         entity = instanceWisePermissionRepository.save(entity);
-        return entityToDto(entity);
+//        session.persist(entity);
+//        return entityToDto(entity);
     }
 
     public InstanceWisePermissionDto update(UUID id, InstanceWisePermissionParam param) {

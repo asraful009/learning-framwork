@@ -2,11 +2,12 @@ package com.cyber009.spring3.t0.entity;
 
 import com.cyber009.spring3.t0.common.entity.Address;
 import com.cyber009.spring3.t0.common.entity.BaseEntity;
+import com.cyber009.spring3.t0.common.entity.InstancePermissionNeeded;
+import com.cyber009.spring3.t0.common.listener.EntityEventListener;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.core.ApplicationContext;
 
 import java.util.List;
 
@@ -17,11 +18,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@EntityListeners(EntityEventListener.class)
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @ToString(callSuper = true)
 @Slf4j
-public class Office extends BaseEntity {
+public class Office extends BaseEntity implements InstancePermissionNeeded {
+
 
     @Column(columnDefinition = "NVARCHAR2(1024)")
     private String name;

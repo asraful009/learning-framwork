@@ -1,15 +1,12 @@
 package com.cyber009.spring3.t0.common.entity;
 
 
-import jakarta.persistence.Column;
+import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Version;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import jakarta.persistence.Id;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedDate;
-
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
