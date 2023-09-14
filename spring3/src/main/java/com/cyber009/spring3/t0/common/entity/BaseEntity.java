@@ -7,6 +7,8 @@ import jakarta.persistence.Version;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -29,6 +31,9 @@ public class BaseEntity implements Serializable {
 
     @CreationTimestamp
     private LocalDateTime createAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
     @Builder.Default
     private Boolean isDelete = Boolean.FALSE;

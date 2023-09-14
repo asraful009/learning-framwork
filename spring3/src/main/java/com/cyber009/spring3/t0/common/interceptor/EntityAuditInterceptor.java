@@ -2,20 +2,16 @@ package com.cyber009.spring3.t0.common.interceptor;
 
 import com.cyber009.spring3.t0.common.entity.BaseEntity;
 import com.cyber009.spring3.t0.common.entity.InstancePermissionNeeded;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.CallbackException;
+import org.hibernate.EmptyInterceptor;
 import org.hibernate.Interceptor;
 import org.hibernate.type.Type;
-import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.Iterator;
-
-@Component
 @Slf4j
-@RequiredArgsConstructor
-public class EntityAuditInterceptor implements Interceptor, Serializable {
+public class EntityAuditInterceptor implements Serializable, Interceptor {
 
 
     @Override
