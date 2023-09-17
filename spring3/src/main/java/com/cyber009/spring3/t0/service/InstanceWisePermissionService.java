@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -28,18 +29,17 @@ public class InstanceWisePermissionService {
     private final InstanceWisePermissionRepository instanceWisePermissionRepository;
     private final InstanceWisePermissionMapper instanceWisePermissionMapper;
 
+
     @Async
-    public void save(InstanceCreateEvent event) {
+    public InstanceWisePermissionDto save(InstanceCreateEvent event) {
         InstanceWisePermission entity = InstanceWisePermission.builder().build();
 
         Optional<InstanceWisePermission> opEntity = instanceWisePermissionRepository.findTopByInstanceFromAndInstanceIdOrderByCreateAt(event.getEntityName(), event.getInstanceId());
         if(opEntity.isPresent()) entity = opEntity.get();
         eventToEntity(event, entity);
         entity.setId(UUID.randomUUID());
-//        Session session = sessionFactory.getCurrentSession();
         entity = instanceWisePermissionRepository.save(entity);
-//        session.persist(entity);
-//        return entityToDto(entity);
+        return entityToDto(entity);
     }
 
     public InstanceWisePermissionDto update(UUID id, InstanceWisePermissionParam param) {

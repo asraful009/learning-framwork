@@ -2,13 +2,12 @@ package com.cyber009.spring3.t0.entity;
 
 import com.cyber009.spring3.t0.common.entity.Address;
 import com.cyber009.spring3.t0.common.entity.BaseEntity;
+import com.cyber009.spring3.t0.common.entity.EntityListener;
 import com.cyber009.spring3.t0.common.entity.InstancePermissionNeeded;
-import com.cyber009.spring3.t0.common.listener.EntityEventListener;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.List;
 
@@ -23,6 +22,7 @@ import java.util.List;
 @SuperBuilder
 @ToString(callSuper = true)
 @Slf4j
+@EntityListeners(EntityListener.class)
 public class Office extends BaseEntity implements InstancePermissionNeeded {
 
 

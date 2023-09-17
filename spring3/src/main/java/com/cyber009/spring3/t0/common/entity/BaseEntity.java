@@ -1,6 +1,10 @@
 package com.cyber009.spring3.t0.common.entity;
 
 
+import com.cyber009.spring3.t0.common.component.LocalDateTimeDeserializer;
+import com.cyber009.spring3.t0.common.component.LocalDateTimeSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Version;
@@ -30,9 +34,13 @@ public class BaseEntity implements Serializable {
     private Integer version = 0;
 
     @CreationTimestamp
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime createAt;
 
     @UpdateTimestamp
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime updatedAt;
 
     @Builder.Default
