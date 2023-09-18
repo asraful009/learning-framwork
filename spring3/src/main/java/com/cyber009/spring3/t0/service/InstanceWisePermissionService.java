@@ -1,18 +1,16 @@
 package com.cyber009.spring3.t0.service;
 
 import com.cyber009.spring3.t0.dto.instance.InstanceWisePermissionDto;
-import com.cyber009.spring3.t0.entity.InstanceWiseAppUserHasPermission;
-import com.cyber009.spring3.t0.entity.InstanceWisePermission;
+import com.cyber009.spring3.t0.entity.instancewisepermission.InstanceWiseAppUserHasPermission;
+import com.cyber009.spring3.t0.entity.instancewisepermission.InstanceWisePermission;
 import com.cyber009.spring3.t0.common.instance.InstanceCreateEvent;
+import com.cyber009.spring3.t0.entity.instancewisepermission.InstanceWisePermissionRedis;
 import com.cyber009.spring3.t0.mapper.InstanceWisePermissionMapper;
 import com.cyber009.spring3.t0.param.instance.InstanceWiseAppUserHasPermissionParam;
 import com.cyber009.spring3.t0.param.instance.InstanceWisePermissionParam;
+import com.cyber009.spring3.t0.repository.instance.InstanceWisePermissionRedisRepository;
 import com.cyber009.spring3.t0.repository.instance.InstanceWisePermissionRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class InstanceWisePermissionService {
 
     private final InstanceWisePermissionRepository instanceWisePermissionRepository;
+    private final InstanceWisePermissionRedisRepository instanceWisePermissionRedisRepository;
     private final InstanceWisePermissionMapper instanceWisePermissionMapper;
 
 
@@ -39,7 +38,13 @@ public class InstanceWisePermissionService {
         eventToEntity(event, entity);
         entity.setId(UUID.randomUUID());
         entity = instanceWisePermissionRepository.save(entity);
-        return entityToDto(entity);
+        InstanceWisePermissionDto dto = entityToDto(entity);
+        InstanceWisePermissionRedis cashe = InstanceWisePermissionRedis.builder()
+                .id(dto.getId())
+                .instanceWisePermissionDto(dto)
+                .build();
+        instanceWisePermissionRedisRepository.save(cashe);
+        return dto;
     }
 
     public InstanceWisePermissionDto update(UUID id, InstanceWisePermissionParam param) {

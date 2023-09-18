@@ -1,9 +1,7 @@
 package com.cyber009.spring3.t0.dto.instance;
 
-import com.cyber009.spring3.t0.common.entity.BaseEntity;
 import com.cyber009.spring3.t0.dto.BaseDto;
-import com.cyber009.spring3.t0.entity.InstanceWisePermission;
-import jakarta.persistence.*;
+import com.cyber009.spring3.t0.entity.instancewisepermission.InstanceWisePermission;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.apache.commons.lang3.builder.EqualsExclude;

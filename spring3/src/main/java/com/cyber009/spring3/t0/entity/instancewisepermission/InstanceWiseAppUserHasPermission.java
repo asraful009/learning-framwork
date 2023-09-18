@@ -1,4 +1,4 @@
-package com.cyber009.spring3.t0.entity;
+package com.cyber009.spring3.t0.entity.instancewisepermission;
 
 import com.cyber009.spring3.t0.common.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -7,7 +7,6 @@ import lombok.experimental.SuperBuilder;
 import org.apache.commons.lang3.builder.EqualsExclude;
 import org.hibernate.annotations.SQLDelete;
 
-import java.util.List;
 import java.util.UUID;
 
 @Entity
