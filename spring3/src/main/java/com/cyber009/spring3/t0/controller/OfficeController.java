@@ -20,7 +20,9 @@ public class OfficeController {
     @GetMapping
     public Page<OfficeDto> findAll(@ModelAttribute SearchOfficeParam param) {
         log.info("param:", param);
-        return null;
+        Page<OfficeDto> page = officeService.findAll(param);
+
+        return page;
     }
 
     @PostMapping

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 public class InstanceWisePermissionListener {
     private final InstanceWisePermissionService instanceWisePermissionService;
 
-    @RabbitListener(queues = "spring3-queue")
+    @RabbitListener(queues = "spring3-queue.instance")
     public void receiveMessage(InstanceCreateEvent event) {
         System.out.println("Received message: " + event);
         InstanceWisePermissionDto dto = instanceWisePermissionService.save(event);

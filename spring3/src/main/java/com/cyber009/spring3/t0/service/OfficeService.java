@@ -3,11 +3,13 @@ package com.cyber009.spring3.t0.service;
 import com.cyber009.spring3.t0.common.entity.Address;
 import com.cyber009.spring3.t0.common.mapper.AddressMapper;
 import com.cyber009.spring3.t0.dto.OfficeDto;
+import com.cyber009.spring3.t0.entity.InstanceWisePermission;
 import com.cyber009.spring3.t0.entity.Office;
 import com.cyber009.spring3.t0.mapper.OfficeMapper;
 import com.cyber009.spring3.t0.param.office.OfficeParam;
 import com.cyber009.spring3.t0.param.office.SearchOfficeParam;
 import com.cyber009.spring3.t0.repository.OfficeRepository;
+import com.cyber009.spring3.t0.repository.instance.InstanceWisePermissionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
@@ -21,14 +23,13 @@ import java.util.UUID;
 public class OfficeService {
 
     private final OfficeRepository officeRepository;
+    private final InstanceWisePermissionRepository instanceWisePermissionRepository;
     private final OfficeMapper officeMapper;
     private final AddressMapper addressMapper;
 
-    private final ApplicationEventPublisher eventPublisher;
-
     public Page<OfficeDto> findAll(SearchOfficeParam param) {
         Page<Office> entities = officeRepository.findAll(param.getPageable());
-        return entities.map(this::entityToSimpleDto);
+        return entities.map(this::entityToSimpleDto).map(this::filterWithPermission);
     }
 
     public OfficeDto save(OfficeParam param) {
@@ -64,5 +65,8 @@ public class OfficeService {
         return dto;
     }
 
+    private OfficeDto filterWithPermission(OfficeDto dto) {
 
+        return dto;
+    }
 }

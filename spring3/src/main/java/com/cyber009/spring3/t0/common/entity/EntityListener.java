@@ -21,6 +21,6 @@ public class EntityListener {
                 .instanceId(((InstancePermissionNeeded) entity).getId())
                 .entityName(entity.getClass().getName())
                 .build();
-        rabbitTemplate.convertAndSend("spring3-queue", event);
+        rabbitTemplate.convertAndSend("spring3-queue.instance", event);
     }
 }

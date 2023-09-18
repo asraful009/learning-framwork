@@ -27,7 +27,6 @@ spring:
         format_sql: true
         ejb:
           interceptor: com.cyber009.spring3.t0.common.interceptor.EntityAuditInterceptor
-
 project:
   security:
     peppers:

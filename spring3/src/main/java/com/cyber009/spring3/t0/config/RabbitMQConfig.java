@@ -30,6 +30,7 @@ public class RabbitMQConfig implements RabbitListenerConfigurer {
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory("localhost");
         connectionFactory.setUsername("rabbitmq");
         connectionFactory.setPassword("rabbitmq");
+        connectionFactory.setPort(5672);
         return connectionFactory;
     }
 

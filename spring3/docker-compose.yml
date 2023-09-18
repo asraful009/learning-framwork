@@ -10,6 +10,7 @@ services:
     ports:
       - "1522:1521"
   rabbitmq:
+    container_name: "spring3-rabbitmq-db"
     image: "rabbitmq:management"
     ports:
       - "5672:5672"  # RabbitMQ standard AMQP port
@@ -19,6 +20,14 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: rabbitmq
       RABBITMQ_DEFAULT_PASS: rabbitmq
+  redis:
+    container_name: "spring3-redis-db"
+    image: redis
+    ports:
+      - "6378:6379"
+    volumes:
+      - redis_db:/data
+
 
 
 volumes:
@@ -36,3 +45,10 @@ volumes:
       type: none
       o: bind
       device: ./db/spring3-rabbitmq-db
+  redis_db:
+    driver: local
+    name: "spring3-redis-db"
+    driver_opts:
+      type: none
+      o: bind
+      device: ./db/spring3-redis-db
