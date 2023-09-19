@@ -5,9 +5,11 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.TimeToLive;
 
 import java.io.Serializable;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @RedisHash
 @Data
@@ -20,6 +22,10 @@ public class InstanceWisePermissionRedis implements Serializable {
     @Id
     private UUID id;
     private InstanceWisePermissionDto instanceWisePermissionDto;
+
+    @TimeToLive(unit = TimeUnit.MINUTES)
+    @Builder.Default
+    private Integer ttl = 5;
 
 
 }

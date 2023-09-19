@@ -11,5 +11,6 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @ToString(callSuper = true)
 public class SearchOfficeParam extends BaseSearchParam {
-    private String name;
+    @Builder.Default
+    private String name = "";
 }

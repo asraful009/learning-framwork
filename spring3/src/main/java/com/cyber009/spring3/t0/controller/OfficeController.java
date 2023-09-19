@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/office")
 @RequiredArgsConstructor
@@ -18,10 +20,9 @@ public class OfficeController {
 
 
     @GetMapping
-    public Page<OfficeDto> findAll(@ModelAttribute SearchOfficeParam param) {
+    public List<OfficeDto> findAll(@ModelAttribute SearchOfficeParam param) {
         log.info("param:", param);
-        Page<OfficeDto> page = officeService.findAll(param);
-
+        List<OfficeDto> page = officeService.findAll(param);
         return page;
     }
 

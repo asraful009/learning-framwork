@@ -56,6 +56,18 @@ public class InstanceWisePermissionService {
         return entityToDto(entity);
     }
 
+    public void generateCache() {
+        List<InstanceWisePermission> entities = instanceWisePermissionRepository.findAll();
+        for (InstanceWisePermission entity: entities) {
+            InstanceWisePermissionDto dto = entityToDto(entity);
+            InstanceWisePermissionRedis cashe = InstanceWisePermissionRedis.builder()
+                    .id(dto.getInstanceId())
+                    .instanceWisePermissionDto(dto)
+                    .build();
+            instanceWisePermissionRedisRepository.save(cashe);
+        }
+    }
+
     private void eventToEntity(InstanceCreateEvent event, InstanceWisePermission entity) {
         if(entity.getInstanceFrom() == null) entity.setInstanceFrom(event.getEntityName());
         if(entity.getInstanceId() == null) entity.setInstanceId(event.getInstanceId());

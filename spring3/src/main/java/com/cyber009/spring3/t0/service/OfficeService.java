@@ -4,6 +4,7 @@ import com.cyber009.spring3.t0.common.entity.Address;
 import com.cyber009.spring3.t0.common.mapper.AddressMapper;
 import com.cyber009.spring3.t0.dto.OfficeDto;
 import com.cyber009.spring3.t0.entity.Office;
+import com.cyber009.spring3.t0.entity.instancewisepermission.InstanceWiseAppUserHasPermission;
 import com.cyber009.spring3.t0.entity.instancewisepermission.InstanceWisePermission;
 import com.cyber009.spring3.t0.entity.instancewisepermission.InstanceWisePermissionRedis;
 import com.cyber009.spring3.t0.mapper.OfficeMapper;
@@ -17,8 +18,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,13 +31,14 @@ import java.util.UUID;
 public class OfficeService {
 
     private final OfficeRepository officeRepository;
+    private final InstanceWisePermissionRepository instanceWisePermissionRepository;
     private final InstanceWisePermissionRedisRepository instanceWisePermissionRedisRepository;
     private final OfficeMapper officeMapper;
     private final AddressMapper addressMapper;
 
-    public Page<OfficeDto> findAll(SearchOfficeParam param) {
-        Page<Office> entities = officeRepository.findAll(param.getPageable());
-        return entities.map(this::entityToSimpleDto).map(this::filterWithPermission);
+    public List<OfficeDto> findAll(SearchOfficeParam param) {
+        List<Office> entities = officeRepository.findAll();
+        return entities.stream().map(this::entityToSimpleDto).map(dto-> filterWithPermission(param.getAppUserId(), "READ", dto)).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     public OfficeDto save(OfficeParam param) {
@@ -65,15 +71,26 @@ public class OfficeService {
 
     private OfficeDto entityToSimpleDto(Office entity) {
         OfficeDto dto = officeMapper.entityToSimpleDto(entity);
-        log.info("sss dto: {}", dto);
         return dto;
     }
 
-    private OfficeDto filterWithPermission(OfficeDto dto) {
-        log.info("sss dto: {}", dto);
-        Optional<InstanceWisePermissionRedis> cache = instanceWisePermissionRedisRepository.findById(dto.getId());
-
-      //  if(cache.isEmpty()) return null;
+    private OfficeDto filterWithPermission(UUID appUserId, String accessMode, OfficeDto dto) {
+//        Optional<InstanceWisePermissionRedis> cache = instanceWisePermissionRedisRepository.findById(dto.getId());
+//        log.info("cache: {}", cache);
+//        if(cache.isEmpty()) return null;
+        Optional<InstanceWisePermission> opPermission = instanceWisePermissionRepository.findTopByInstanceFromAndInstanceIdOrderByCreateAt(Office.class.getName(), dto.getId());
+        log.info("permission :{}", opPermission);
+        if(opPermission.isEmpty()) return null;
+        InstanceWisePermission permission = opPermission.get();
+        if(permission.getAccessPolicy().equals("AUTH_ONLY")) {
+            if(appUserId == null) return null;
+            return dto;
+        }
+        if(permission.getAccessPolicy().equals("ACCESS_ONLY")) {
+            Optional<InstanceWiseAppUserHasPermission> appUserHasPermission = permission.getInstanceWiseAppUserHasPermissions().stream().filter(o -> o.getAppUserId().equals(appUserId) && (o.getMethod().equals("READ") || o.getMethod().equals("WRITE"))).findFirst();
+            if(appUserHasPermission.isEmpty()) return null;
+            return dto;
+        }
         return dto;
     }
 }

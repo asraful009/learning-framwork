@@ -22,7 +22,7 @@ public interface OfficeMapper {
     OfficeDto entityToDto(Office entity);
 
     @Mappings({
-            @Mapping(target = "addressDto", source = "address"),
+            @Mapping(target = "addressDto", ignore = true),
             @Mapping(target = "parentOfficeDto", ignore = true),
             @Mapping(target = "childOfficeDtos", ignore = true),
     })
