@@ -6,7 +6,6 @@ import com.cyber009.spring3.t0.dto.OfficeDto;
 import com.cyber009.spring3.t0.entity.Office;
 import com.cyber009.spring3.t0.entity.instancewisepermission.InstanceWiseAppUserHasPermission;
 import com.cyber009.spring3.t0.entity.instancewisepermission.InstanceWisePermission;
-import com.cyber009.spring3.t0.entity.instancewisepermission.InstanceWisePermissionRedis;
 import com.cyber009.spring3.t0.mapper.OfficeMapper;
 import com.cyber009.spring3.t0.param.office.OfficeParam;
 import com.cyber009.spring3.t0.param.office.SearchOfficeParam;
@@ -15,14 +14,12 @@ import com.cyber009.spring3.t0.repository.instance.InstanceWisePermissionRedisRe
 import com.cyber009.spring3.t0.repository.instance.InstanceWisePermissionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -75,9 +72,6 @@ public class OfficeService {
     }
 
     private OfficeDto filterWithPermission(UUID appUserId, String accessMode, OfficeDto dto) {
-//        Optional<InstanceWisePermissionRedis> cache = instanceWisePermissionRedisRepository.findById(dto.getId());
-//        log.info("cache: {}", cache);
-//        if(cache.isEmpty()) return null;
         Optional<InstanceWisePermission> opPermission = instanceWisePermissionRepository.findTopByInstanceFromAndInstanceIdOrderByCreateAt(Office.class.getName(), dto.getId());
         log.info("permission :{}", opPermission);
         if(opPermission.isEmpty()) return null;

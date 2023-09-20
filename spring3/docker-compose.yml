@@ -5,6 +5,7 @@ services:
     image: container-registry.oracle.com/database/express:21.3.0-xe
     volumes:
       - oracle_db:/opt/oracle/oradata
+      - ./oracle-setup-scripts:/opt/oracle/scripts/startup
     environment:
       ORACLE_PWD: "db"
     ports:
@@ -13,8 +14,8 @@ services:
     container_name: "spring3-rabbitmq-db"
     image: "rabbitmq:management"
     ports:
-      - "5672:5672"  # RabbitMQ standard AMQP port
-      - "15672:15672"  # RabbitMQ Management UI port
+      - "5672:5672" # RabbitMQ standard AMQP port
+      - "15672:15672" # RabbitMQ Management UI port
     volumes:
       - rabbitmq_db:/var/lib/rabbitmq
     environment:
@@ -27,8 +28,6 @@ services:
       - "6378:6379"
     volumes:
       - redis_db:/data
-
-
 
 volumes:
   oracle_db:
