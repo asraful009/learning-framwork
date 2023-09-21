@@ -10,7 +10,7 @@ import org.hibernate.annotations.SQLDelete;
 import java.util.UUID;
 
 @Entity
-@Table(name = "instance_wise_app_user_has_permissions", indexes = {
+@Table(name = "instance_wise_appointment_has_permissions", indexes = {
         @Index(columnList = "instance_wise_permission_id"),
         @Index(columnList = "app_user_id"),
         @Index(columnList = "method"),
@@ -25,8 +25,8 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @ToString(callSuper = true)
-@SQLDelete(sql = "UPDATE instance_wise_app_user_has_permissions SET deleted = true WHERE id=? and version=?")
-public class InstanceWiseAppUserHasPermission extends BaseEntity {
+@SQLDelete(sql = "UPDATE instance_wise_appointment_has_permissions SET deleted = true WHERE id=? and version=?")
+public class InstanceWiseAppointmentHasPermission extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "instance_wise_permission_id")

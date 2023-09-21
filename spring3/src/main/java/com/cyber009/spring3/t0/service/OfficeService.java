@@ -3,7 +3,7 @@ package com.cyber009.spring3.t0.service;
 import com.cyber009.spring3.t0.common.entity.Address;
 import com.cyber009.spring3.t0.common.mapper.AddressMapper;
 import com.cyber009.spring3.t0.dto.OfficeDto;
-import com.cyber009.spring3.t0.entity.Office;
+import com.cyber009.spring3.t0.entity.office.Office;
 import com.cyber009.spring3.t0.entity.instancewisepermission.InstanceWiseAppUserHasPermission;
 import com.cyber009.spring3.t0.entity.instancewisepermission.InstanceWisePermission;
 import com.cyber009.spring3.t0.mapper.OfficeMapper;

@@ -4,7 +4,7 @@ import com.cyber009.spring3.t0.common.entity.Address;
 import com.cyber009.spring3.t0.common.mapper.AddressMapper;
 import com.cyber009.spring3.t0.common.utility.PasswordService;
 import com.cyber009.spring3.t0.dto.AppUserDto;
-import com.cyber009.spring3.t0.entity.AppUser;
+import com.cyber009.spring3.t0.entity.user.AppUser;
 import com.cyber009.spring3.t0.mapper.AppUserMapper;
 import com.cyber009.spring3.t0.param.appuser.AppUserParam;
 import com.cyber009.spring3.t0.param.office.SearchOfficeParam;

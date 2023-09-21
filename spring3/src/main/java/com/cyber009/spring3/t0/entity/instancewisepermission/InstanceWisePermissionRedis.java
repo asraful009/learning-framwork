@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-@RedisHash
+@RedisHash("instance_wise_permission_redis")
 @Data
 @SuperBuilder
 @ToString

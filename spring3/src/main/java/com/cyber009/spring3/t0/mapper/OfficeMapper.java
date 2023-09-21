@@ -3,7 +3,7 @@ package com.cyber009.spring3.t0.mapper;
 import com.cyber009.spring3.t0.common.mapper.AddressMapper;
 import com.cyber009.spring3.t0.config.CommonMapperConfig;
 import com.cyber009.spring3.t0.dto.OfficeDto;
-import com.cyber009.spring3.t0.entity.Office;
+import com.cyber009.spring3.t0.entity.office.Office;
 import com.cyber009.spring3.t0.param.office.OfficeParam;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
