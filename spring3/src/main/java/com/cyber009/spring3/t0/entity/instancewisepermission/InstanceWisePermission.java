@@ -40,6 +40,9 @@ public class InstanceWisePermission extends BaseEntity {
 
     @OneToMany(mappedBy = "instanceWisePermission", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<InstanceWiseAppUserHasPermission> instanceWiseAppUserHasPermissions;
+
+    @OneToMany(mappedBy = "instanceWisePermission", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<InstanceWiseAppointmentHasPermission> instanceWiseAppointmentHasPermissions;
 }
 
 

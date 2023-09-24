@@ -3,6 +3,7 @@ package com.cyber009.spring3.t0.service.office;
 import com.cyber009.spring3.t0.common.entity.Address;
 import com.cyber009.spring3.t0.common.mapper.AddressMapper;
 import com.cyber009.spring3.t0.dto.office.office.OfficeDto;
+import com.cyber009.spring3.t0.entity.instancewisepermission.InstanceWiseAppointmentHasPermission;
 import com.cyber009.spring3.t0.entity.office.Office;
 import com.cyber009.spring3.t0.entity.instancewisepermission.InstanceWiseAppUserHasPermission;
 import com.cyber009.spring3.t0.entity.instancewisepermission.InstanceWisePermission;
@@ -35,7 +36,7 @@ public class OfficeService {
 
     public List<OfficeDto> findAll(SearchOfficeParam param) {
         List<Office> entities = officeRepository.findAll();
-        return entities.stream().map(this::entityToSimpleDto).map(dto-> filterWithPermission(param.getAppUserId(), "READ", dto)).filter(Objects::nonNull).collect(Collectors.toList());
+        return entities.stream().map(this::entityToSimpleDto).map(dto-> filterWithPermission(param.getAppUserId(), param.getAppointmentId(), "READ", dto)).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     public OfficeDto save(OfficeParam param) {
@@ -71,20 +72,43 @@ public class OfficeService {
         return dto;
     }
 
-    private OfficeDto filterWithPermission(UUID appUserId, String accessMode, OfficeDto dto) {
+    private OfficeDto filterWithPermission(UUID appUserId, UUID appointmentId, String accessMode, OfficeDto dto) {
         Optional<InstanceWisePermission> opPermission = instanceWisePermissionRepository.findTopByInstanceFromAndInstanceIdOrderByCreateAt(Office.class.getName(), dto.getId());
         log.info("permission :{}", opPermission);
         if(opPermission.isEmpty()) return null;
         InstanceWisePermission permission = opPermission.get();
+        if(permission.getAccessPolicy().equals("PUBLIC")) {
+            return dto;
+        }
         if(permission.getAccessPolicy().equals("AUTH_ONLY")) {
             if(appUserId == null) return null;
             return dto;
         }
         if(permission.getAccessPolicy().equals("ACCESS_ONLY")) {
-            Optional<InstanceWiseAppUserHasPermission> appUserHasPermission = permission.getInstanceWiseAppUserHasPermissions().stream().filter(o -> o.getAppUserId().equals(appUserId) && (o.getMethod().equals("READ") || o.getMethod().equals("WRITE"))).findFirst();
+            Optional<InstanceWiseAppUserHasPermission> appUserHasPermission =
+                    permission.getInstanceWiseAppUserHasPermissions().stream().filter(o -> o.getAppUserId().equals(appUserId) && (o.getMethod().equals("READ") || o.getMethod().equals("WRITE"))).findFirst();
             if(appUserHasPermission.isEmpty()) return null;
             return dto;
         }
-        return dto;
+        if(permission.getAccessPolicy().equals("APPOINTMENT_ONLY")) {
+            Optional<InstanceWiseAppointmentHasPermission> appointmentHasPermission =
+                    permission.getInstanceWiseAppointmentHasPermissions().stream().filter(o -> o.getAppointment().equals(appointmentId) && (o.getMethod().equals("READ") || o.getMethod().equals("WRITE"))).findFirst();
+            if(appointmentHasPermission.isEmpty()) return null;
+            return dto;
+        }
+        if(permission.getAccessPolicy().equals("APP_USER_AND_APPOINTMENT_ONLY")) {
+            if (appUserId != null) {
+                Optional<InstanceWiseAppUserHasPermission> appUserHasPermission =
+                        permission.getInstanceWiseAppUserHasPermissions().stream().filter(o -> o.getAppUserId().equals(appUserId) && (o.getMethod().equals("READ") || o.getMethod().equals("WRITE"))).findFirst();
+                if(appUserHasPermission.isPresent()) return dto;
+            }
+            if (appointmentId != null) {
+                Optional<InstanceWiseAppointmentHasPermission> appointmentHasPermission =
+                        permission.getInstanceWiseAppointmentHasPermissions().stream().filter(o -> o.getAppointment().equals(appointmentId) && (o.getMethod().equals("READ") || o.getMethod().equals("WRITE"))).findFirst();
+                if (appointmentHasPermission.isPresent()) return dto;
+            }
+            return null;
+        }
+        return null;
     }
 }

@@ -1,6 +1,7 @@
 package com.cyber009.spring3.t0.entity.instancewisepermission;
 
 import com.cyber009.spring3.t0.common.entity.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -16,7 +17,7 @@ import java.util.UUID;
         @Index(columnList = "method"),
         @Index(columnList = "sorting_order ASC"),
         @Index(columnList = "instance_wise_permission_id, app_user_id"),
-        @Index(columnList = "instance_wise_permission_id, app_user_id, method", unique = true),
+        @Index(columnList = "instance_wise_permission_id, app_user_id, method"),
 
 })
 @AllArgsConstructor
@@ -31,6 +32,8 @@ public class InstanceWiseAppUserHasPermission extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "instance_wise_permission_id")
     @EqualsExclude
+    @ToString.Exclude
+    @JsonIgnore
     private InstanceWisePermission instanceWisePermission;
 
     @Column(name = "app_user_id", columnDefinition = "RAW(16)", updatable = false, nullable = false)

@@ -32,4 +32,16 @@ public class WebService {
                    }
                 });
     }
+
+//    public Mono<T> getDataToApi<T>(String endpoint, String params) {
+//        return webClient.get()
+//                .uri(endpoint)
+//                .exchangeToMono(clientResponse -> {
+//                    if(clientResponse.statusCode().equals(HttpStatus.OK)) {
+//                        return clientResponse.bodyToMono(String.class);
+//                    } else {
+//                        return clientResponse.createException().flatMap(Mono::error);
+//                    }
+//                });
+//    }
 }

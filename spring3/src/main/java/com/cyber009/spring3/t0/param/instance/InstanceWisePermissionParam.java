@@ -15,4 +15,5 @@ import java.util.List;
 public class InstanceWisePermissionParam {
     private String accessPolicy;
     private List<InstanceWiseAppUserHasPermissionParam> instanceWiseAppUserHasPermissionParams;
+    private List<InstanceWiseAppointmentHasPermissionParam> instanceWiseAppointmentHasPermissionParams;
 }

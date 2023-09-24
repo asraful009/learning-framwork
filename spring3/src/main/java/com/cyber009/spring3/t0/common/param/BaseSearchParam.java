@@ -19,6 +19,7 @@ public class BaseSearchParam {
     private Integer pageNo;
     private Integer pageSize;
     private UUID appUserId;
+    private UUID appointmentId;
 
 
     public PageRequest getPageable() {

@@ -2,11 +2,13 @@ package com.cyber009.spring3.t0.service.Instancewisepermission;
 
 import com.cyber009.spring3.t0.dto.instance.InstanceWisePermissionDto;
 import com.cyber009.spring3.t0.entity.instancewisepermission.InstanceWiseAppUserHasPermission;
+import com.cyber009.spring3.t0.entity.instancewisepermission.InstanceWiseAppointmentHasPermission;
 import com.cyber009.spring3.t0.entity.instancewisepermission.InstanceWisePermission;
 import com.cyber009.spring3.t0.common.instance.InstanceCreateEvent;
 import com.cyber009.spring3.t0.entity.instancewisepermission.InstanceWisePermissionRedis;
 import com.cyber009.spring3.t0.mapper.InstanceWisePermissionMapper;
 import com.cyber009.spring3.t0.param.instance.InstanceWiseAppUserHasPermissionParam;
+import com.cyber009.spring3.t0.param.instance.InstanceWiseAppointmentHasPermissionParam;
 import com.cyber009.spring3.t0.param.instance.InstanceWisePermissionParam;
 import com.cyber009.spring3.t0.repository.instance.InstanceWisePermissionRedisRepository;
 import com.cyber009.spring3.t0.repository.instance.InstanceWisePermissionRepository;
@@ -77,6 +79,7 @@ public class InstanceWisePermissionService {
     private void paramToEntity(InstanceWisePermissionParam param, InstanceWisePermission entity) {
         entity.setAccessPolicy(param.getAccessPolicy());
         prepareInstanceWiseAppUserHasPermission(param, entity);
+        prepareInstanceWiseAppointmentHasPermission(param, entity);
     }
 
     private void prepareInstanceWiseAppUserHasPermission(InstanceWisePermissionParam param, InstanceWisePermission entity) {
@@ -100,6 +103,31 @@ public class InstanceWisePermissionService {
                     .instanceWisePermission(entity)
                     .build();
             instanceWiseAppUserHasPermissions.add(appUserHasPermission);
+        }
+    }
+
+
+    private void prepareInstanceWiseAppointmentHasPermission(InstanceWisePermissionParam param, InstanceWisePermission entity) {
+        List<InstanceWiseAppointmentHasPermissionParam> appointmentHasPermissionParams = param.getInstanceWiseAppointmentHasPermissionParams();
+        if(appointmentHasPermissionParams == null || appointmentHasPermissionParams.isEmpty()) return;
+        List<InstanceWiseAppointmentHasPermission> instanceWiseAppointmentHasPermissions = entity.getInstanceWiseAppointmentHasPermissions();
+        if(instanceWiseAppointmentHasPermissions == null) {
+            instanceWiseAppointmentHasPermissions = new LinkedList<>();
+            entity.setInstanceWiseAppointmentHasPermissions(instanceWiseAppointmentHasPermissions);
+        }
+        for (InstanceWiseAppointmentHasPermission instanceWiseAppUserHasPermission : instanceWiseAppointmentHasPermissions) {
+            instanceWiseAppUserHasPermission.setIsDelete(true);
+        }
+        AtomicInteger sortingIndex = new AtomicInteger(0);
+        for (InstanceWiseAppointmentHasPermissionParam appointmentHasPermissionParam : appointmentHasPermissionParams) {
+            InstanceWiseAppointmentHasPermission appointmentHasPermission = InstanceWiseAppointmentHasPermission.builder()
+                    .id(UUID.randomUUID())
+                    .appointment(appointmentHasPermissionParam.getAppointmentId())
+                    .method(appointmentHasPermissionParam.getMethod())
+                    .sortingOrder(sortingIndex.getAndIncrement())
+                    .instanceWisePermission(entity)
+                    .build();
+            instanceWiseAppointmentHasPermissions.add(appointmentHasPermission);
         }
     }
 
