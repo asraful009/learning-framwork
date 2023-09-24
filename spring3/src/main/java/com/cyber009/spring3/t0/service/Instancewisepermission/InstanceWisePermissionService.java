@@ -1,4 +1,4 @@
-package com.cyber009.spring3.t0.service;
+package com.cyber009.spring3.t0.service.Instancewisepermission;
 
 import com.cyber009.spring3.t0.dto.instance.InstanceWisePermissionDto;
 import com.cyber009.spring3.t0.entity.instancewisepermission.InstanceWiseAppUserHasPermission;

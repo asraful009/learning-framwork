@@ -3,7 +3,7 @@ package com.cyber009.spring3.t0.controller;
 import com.cyber009.spring3.t0.dto.AppUserDto;
 import com.cyber009.spring3.t0.param.appuser.AppUserParam;
 import com.cyber009.spring3.t0.param.appuser.SearchAppUserParam;
-import com.cyber009.spring3.t0.service.AppUserService;
+import com.cyber009.spring3.t0.service.appuser.AppUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

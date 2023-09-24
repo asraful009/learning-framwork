@@ -1,11 +1,11 @@
-package com.cyber009.spring3.t0.service;
+package com.cyber009.spring3.t0.service.workflow;
 
 import com.cyber009.spring3.t0.dto.WorkFlowDto;
 import com.cyber009.spring3.t0.entity.WorkFlow;
-import com.cyber009.spring3.t0.mapper.OfficeMapper;
+import com.cyber009.spring3.t0.mapper.office.OfficeMapper;
 import com.cyber009.spring3.t0.mapper.WorkFlowMapper;
 import com.cyber009.spring3.t0.param.WorkFlowParam;
-import com.cyber009.spring3.t0.repository.OfficeRepository;
+import com.cyber009.spring3.t0.repository.office.OfficeRepository;
 import com.cyber009.spring3.t0.repository.WorkFlowRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.cyber009.spring3.t0.param.office;
+package com.cyber009.spring3.t0.param.office.office;
 
 import com.cyber009.spring3.t0.common.param.BaseSearchParam;
 import lombok.*;

@@ -1,12 +1,11 @@
-package com.cyber009.spring3.t0.controller;
+package com.cyber009.spring3.t0.controller.office;
 
-import com.cyber009.spring3.t0.dto.OfficeDto;
-import com.cyber009.spring3.t0.param.office.OfficeParam;
-import com.cyber009.spring3.t0.param.office.SearchOfficeParam;
-import com.cyber009.spring3.t0.service.OfficeService;
+import com.cyber009.spring3.t0.dto.office.office.OfficeDto;
+import com.cyber009.spring3.t0.param.office.office.OfficeParam;
+import com.cyber009.spring3.t0.param.office.office.SearchOfficeParam;
+import com.cyber009.spring3.t0.service.office.OfficeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

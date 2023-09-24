@@ -1,15 +1,15 @@
-package com.cyber009.spring3.t0.service;
+package com.cyber009.spring3.t0.service.office;
 
 import com.cyber009.spring3.t0.common.entity.Address;
 import com.cyber009.spring3.t0.common.mapper.AddressMapper;
-import com.cyber009.spring3.t0.dto.OfficeDto;
+import com.cyber009.spring3.t0.dto.office.office.OfficeDto;
 import com.cyber009.spring3.t0.entity.office.Office;
 import com.cyber009.spring3.t0.entity.instancewisepermission.InstanceWiseAppUserHasPermission;
 import com.cyber009.spring3.t0.entity.instancewisepermission.InstanceWisePermission;
-import com.cyber009.spring3.t0.mapper.OfficeMapper;
-import com.cyber009.spring3.t0.param.office.OfficeParam;
-import com.cyber009.spring3.t0.param.office.SearchOfficeParam;
-import com.cyber009.spring3.t0.repository.OfficeRepository;
+import com.cyber009.spring3.t0.mapper.office.OfficeMapper;
+import com.cyber009.spring3.t0.param.office.office.OfficeParam;
+import com.cyber009.spring3.t0.param.office.office.SearchOfficeParam;
+import com.cyber009.spring3.t0.repository.office.OfficeRepository;
 import com.cyber009.spring3.t0.repository.instance.InstanceWisePermissionRedisRepository;
 import com.cyber009.spring3.t0.repository.instance.InstanceWisePermissionRepository;
 import lombok.RequiredArgsConstructor;

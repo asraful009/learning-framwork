@@ -2,7 +2,7 @@ package com.cyber009.spring3.t0.listener;
 
 import com.cyber009.spring3.t0.common.instance.InstanceCreateEvent;
 import com.cyber009.spring3.t0.dto.instance.InstanceWisePermissionDto;
-import com.cyber009.spring3.t0.service.InstanceWisePermissionService;
+import com.cyber009.spring3.t0.service.Instancewisepermission.InstanceWisePermissionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

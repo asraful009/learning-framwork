@@ -8,8 +8,8 @@ import lombok.experimental.SuperBuilder;
 import org.apache.commons.lang3.builder.EqualsExclude;
 
 @Entity
-@Table(name = "app_users", indexes = {
-        @Index(columnList = "userName")
+@Table(name = "appointment", indexes = {
+        @Index(columnList = "name")
 })
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,6 +23,6 @@ public class Appointment extends BaseEntity {
     private String name;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    @JoinColumn(name = "office_id", referencedColumnName = "id")
     private Office office;
 }

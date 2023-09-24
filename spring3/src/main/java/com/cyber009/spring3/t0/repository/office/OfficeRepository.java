@@ -1,4 +1,4 @@
-package com.cyber009.spring3.t0.repository;
+package com.cyber009.spring3.t0.repository.office;
 
 
 import com.cyber009.spring3.t0.common.repository.CommonRepository;

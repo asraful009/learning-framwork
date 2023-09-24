@@ -1,4 +1,4 @@
-package com.cyber009.spring3.t0.service;
+package com.cyber009.spring3.t0.service.appuser;
 
 import com.cyber009.spring3.t0.common.entity.Address;
 import com.cyber009.spring3.t0.common.mapper.AddressMapper;
@@ -7,7 +7,7 @@ import com.cyber009.spring3.t0.dto.AppUserDto;
 import com.cyber009.spring3.t0.entity.user.AppUser;
 import com.cyber009.spring3.t0.mapper.AppUserMapper;
 import com.cyber009.spring3.t0.param.appuser.AppUserParam;
-import com.cyber009.spring3.t0.param.office.SearchOfficeParam;
+import com.cyber009.spring3.t0.param.office.office.SearchOfficeParam;
 import com.cyber009.spring3.t0.repository.AppUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
