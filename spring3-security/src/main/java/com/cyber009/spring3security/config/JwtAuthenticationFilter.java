@@ -10,10 +10,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -49,7 +51,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String email = jwtService.extractEmail(jwtToken);
         if(email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             Optional<AppUser> opAppUser = appUserService.findByEmail(email);
-            if(opAppUser.isEmpty()) throw new HttpClientErrorException.BadRequest("email not found", );
+            if(opAppUser.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Actor Not Found", null);
         }
 
     }
