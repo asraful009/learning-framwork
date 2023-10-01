@@ -1,0 +1,20 @@
+spring:
+  security:
+    user:
+      name: tea
+      password: tea
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/spring_security
+    username: spring_security
+    password: spring_security
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQLDialect

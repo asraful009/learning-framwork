@@ -1,0 +1,40 @@
+version: "3.8"
+services:
+  spring3_security_mysql_db:
+    container_name: "spring3_security_mysql_db"
+    image: mysql:latest
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - spring3_security_mysql_db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: spring_security
+      MYSQL_DATABASE: spring_security
+      MYSQL_USER: spring_security
+      MYSQL_PASSWORD: spring_security
+    ports:
+      - "3306:3306"
+    networks:
+      - spring3-security-network
+
+  spring3_security_redis_db:
+    container_name: "spring3_security_redis_db"
+    image: redis:alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - spring3-security-network
+
+
+volumes:
+  spring3_security_mysql_db:
+    driver: local
+    name: "spring3_security_mysql_db"
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/.db/spring3_security_mysql_db/
+networks:
+  spring3-security-network:
+    name: spring3-security_network
