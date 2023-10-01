@@ -1,5 +1,5 @@
 build:
-	mkdir -p .db/spring3_security_mysql_db
+	mkdir -p $pwd/.db/spring3_security_mysql_db
 	docker compose build
 up:
 	docker compose up -d --remove-orphans
