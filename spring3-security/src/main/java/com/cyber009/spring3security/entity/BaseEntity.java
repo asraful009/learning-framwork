@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GeneratedColumn;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;

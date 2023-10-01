@@ -26,7 +26,7 @@ import java.util.List;
 public class AppUser extends BaseEntity {
 
     @Column(columnDefinition = "VARCHAR(256)", nullable = false, unique = true, updatable = false)
-    private String userName;
+    private String email;
 
     @Column(columnDefinition = "VARCHAR(4000)")
     private String password;
