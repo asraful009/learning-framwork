@@ -1,4 +1,4 @@
-package com.cyber009.spring3security.config;
+package com.cyber009.spring3security.filter;
 
 import com.cyber009.spring3security.entity.appuser.AppUser;
 import com.cyber009.spring3security.service.AppUserService;
@@ -11,9 +11,11 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -52,8 +54,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if(email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             Optional<AppUser> opAppUser = appUserService.findByEmail(email);
             if(opAppUser.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Actor Not Found", null);
+            if(jwtService.isJwtTokenValid(jwtToken, opAppUser.get())) {
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                        opAppUser.get(),
+                        null,
+                        opAppUser.get().getAuthorities()
+                );
+                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            }
         }
-
+        filterChain.doFilter(request, response);
     }
 }
 

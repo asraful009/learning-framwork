@@ -9,6 +9,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
@@ -23,7 +24,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Where(clause = "is_deleted = false")
 @SQLDelete(sql = "UPDATE app_users SET is_deleted = true WHERE id=? and version=?")
-public class AppUser extends BaseEntity {
+public class AppUser extends BaseEntity implements UserDetails {
 
     @Column(columnDefinition = "VARCHAR(256)", nullable = false, unique = true, updatable = false)
     private String email;
@@ -51,5 +52,45 @@ public class AppUser extends BaseEntity {
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    /**
+     * @return String
+     */
+    @Override
+    public String getUsername() {
+        return null;
+    }
+
+    /**
+     * @return boolean
+     */
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    /**
+     * @return boolean
+     */
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    /**
+     * @return boolean
+     */
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    /**
+     * @return 
+     */
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 }
