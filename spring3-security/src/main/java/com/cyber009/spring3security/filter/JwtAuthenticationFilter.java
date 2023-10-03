@@ -1,7 +1,7 @@
 package com.cyber009.spring3security.filter;
 
 import com.cyber009.spring3security.entity.appuser.AppUser;
-import com.cyber009.spring3security.service.AppUserService;
+import com.cyber009.spring3security.service.appuser.AppUserService;
 import com.cyber009.spring3security.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -13,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
