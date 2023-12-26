@@ -7,5 +7,7 @@ up:
 	docker compose up -d --remove-orphans
 stop:
 	docker compose stop
+down:
+	docker compose down
 run:
 	export JAVA_HOME=

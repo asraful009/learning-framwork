@@ -6,6 +6,8 @@ import com.cyber009.spring3security.param.auth.RegisterParam;
 import com.cyber009.spring3security.repository.appuser.AppUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,7 @@ import java.util.Optional;
 public class AppUserService {
     private final AppUserRepository appUserRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
 
     public Optional<AppUser> findByEmail(String email) {
         return appUserRepository.findOneByEmail(email);
@@ -34,8 +37,7 @@ public class AppUserService {
     }
 
     public AppUser authenticate(RegisterParam param) {
-        AppUser appUser = AppUser.builder()
-                .build();
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken( ))
         return null;
     }
 }
