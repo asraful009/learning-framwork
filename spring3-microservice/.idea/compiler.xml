@@ -20,7 +20,7 @@
       <module name="appuser-service" options="-parameters" />
       <module name="common" options="-parameters" />
       <module name="config-server" options="-parameters" />
-      <module name="user-service" options="-parameters" />
+      <module name="user-service" options="" />
     </option>
   </component>
 </project>
