@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: ConfigServer
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        composite:
+          -type : native
+          search-locations: file:///home/pavel/projects/learning-framwork/spring3-microservice/config
+server:
+  port: 7071
