@@ -7,4 +7,8 @@ public class ApiPath {
         public static final String API_AUTH_REGISTER = API_AUTH + "/register";
         public static final String API_AUTH_AUTHENTICATE = API_AUTH + "/authenticate";
     }
+
+    public static class HomePath {
+        public static final String API_HOME = API_BASE + "/home";
+    }
 }

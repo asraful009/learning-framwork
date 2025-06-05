@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -21,6 +22,11 @@ public class RoleService {
     public EndPointEntity savePermissionHasEndPoint(EndPointEntity permissionHasEndPointEntity) {
         log.info("Saving PermissionHasEndPoint: {}", permissionHasEndPointEntity);
         return endPointRepository.save(permissionHasEndPointEntity);
+    }
+
+    public Boolean existEndPointByName(String name) {
+        log.info("Checking if EndPoint exists by name: {}", name);
+        return endPointRepository.existsByName(name);
     }
 
 
