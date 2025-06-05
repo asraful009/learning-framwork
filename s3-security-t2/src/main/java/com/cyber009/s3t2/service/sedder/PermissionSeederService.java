@@ -1,9 +1,7 @@
-package com.cyber009.s3t2.service;
+package com.cyber009.s3t2.service.sedder;
 
-import com.cyber009.s3t2.constance.ApiPath;
-import com.cyber009.s3t2.entity.EndPointEntity;
 import com.cyber009.s3t2.entity.PermissionEntity;
-import com.cyber009.s3t2.enums.EndPointMethod;
+import com.cyber009.s3t2.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,7 +24,7 @@ public class PermissionSeederService {
         log.info("Initializing permissions and Permission");
         List<PermissionEntity> entities = g();
         for (PermissionEntity entity : entities) {
-            if(roleService.existEndPointByName(entity.getName())) {
+            if(roleService.existPermissionByName(entity.getName())) {
                 log.info("Permission with name {} already exists, skipping", entity.getName());
                 continue;
             }

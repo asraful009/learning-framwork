@@ -23,5 +23,5 @@ public class PermissionHasEndPointEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "endpoint_id", nullable = false)
-    private EndPointEntity endpoint;
+    private EndPointEntity endPoint;
 }
