@@ -30,7 +30,7 @@ public class EndPointSeederService {
                 log.info("EndPoint with name {} already exists, skipping", permissionHasEndPointEntity.getName());
                 continue;
             }
-            roleService.savePermissionHasEndPoint(permissionHasEndPointEntity);
+            roleService.saveEndPoint(permissionHasEndPointEntity);
         }
     }
 
