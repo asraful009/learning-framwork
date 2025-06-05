@@ -1,5 +1,6 @@
 package com.cyber009.s3t2.controller;
 
+import com.cyber009.s3t2.constance.ApiPath;
 import com.cyber009.s3t2.dto.AuthenticationDto;
 import com.cyber009.s3t2.entity.UserEntity;
 import com.cyber009.s3t2.param.AuthenticationParam;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping(value = ApiPath.AuthPath.API_AUTH)
 @RequiredArgsConstructor
 public class AuthController {
 
@@ -27,7 +28,7 @@ public class AuthController {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    @PostMapping("/register")
+    @PostMapping(value = ApiPath.AuthPath.API_AUTH_REGISTER)
     public AuthenticationDto register(@RequestBody RegisterParam request) {
         var user = UserEntity.builder()
                 .firstname(request.getFirstname())
@@ -43,14 +44,8 @@ public class AuthController {
                 .build();
     }
 
-    @PostMapping("/authenticate")
+    @PostMapping(ApiPath.AuthPath.API_AUTH_AUTHENTICATE)
     public AuthenticationDto authenticate(@RequestBody AuthenticationParam request) {
-//        authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(
-//                        request.getEmail(),
-//                        request.getPassword()
-//                )
-//        );
         Optional<UserEntity> optionalUserEntity = userRepository.findByEmail(request.getEmail());
         if(optionalUserEntity.isEmpty()) {
             throw new BadCredentialsException("Invalid credentials");

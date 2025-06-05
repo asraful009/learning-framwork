@@ -1,0 +1,8 @@
+[
+  {"path": "/api/auth/login", "method": "POST", "description": "User login endpoint"},
+  {"path": "/api/auth/logout", "method": "POST", "description": "User logout endpoint"},
+  {"path": "/api/auth/register", "method": "POST", "description": "User registration endpoint"},
+  {"path": "/api/auth/refresh-token", "method": "POST", "description": "Refresh user authentication token"},
+  {"path": "/api/auth/reset-password", "method": "POST", "description": "Reset user password endpoint"},
+  {"path": "/api/auth/verify-email", "method": "GET", "description": "Verify user email address"}
+]
