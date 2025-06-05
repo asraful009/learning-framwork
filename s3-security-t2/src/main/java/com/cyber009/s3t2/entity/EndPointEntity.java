@@ -12,11 +12,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "permission_has_end_points")
-public class PermissionHasEndPointEntity {
+@Table(name = "end_points")
+public class EndPointEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
     private EndPointMethod method;
     private String endPoint;
