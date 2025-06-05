@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: s3-t2
+
+  datasource:
+    url: jdbc:sqlite:./sb3t2.db
+    driver-class-name: org.sqlite.JDBC
+    username:
+    password:
+    validation-query: SELECT 1
+    test-on-borrow: false
+
+  # Hibernate properties
+  jpa:
+    database-platform: org.sqlite.hibernate.dialect.SQLiteDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.community.dialect.SQLiteDialect
+
+jwt:
+  secret-key: 74916bae44fe10d5ef6546d6c23d8268c7ebcc748bcd6303322703c19df31b889df760ae837e85bd2e83b1c6923a3455b6b480fd6e4a34d1ea5b791a1721e84d
+  pepper: sd@asd#!**As41
+  expiration: 180000
+
+# SQLite configuration
+
