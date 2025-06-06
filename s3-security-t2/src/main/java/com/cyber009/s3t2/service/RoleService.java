@@ -3,9 +3,11 @@ package com.cyber009.s3t2.service;
 import com.cyber009.s3t2.entity.EndPointEntity;
 import com.cyber009.s3t2.entity.PermissionEntity;
 import com.cyber009.s3t2.entity.PermissionHasEndPointEntity;
+import com.cyber009.s3t2.entity.RoleEntity;
 import com.cyber009.s3t2.repository.EndPointRepository;
 import com.cyber009.s3t2.repository.PermissionHasEndPointRepository;
 import com.cyber009.s3t2.repository.PermissionRepository;
+import com.cyber009.s3t2.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ public class RoleService {
     private final EndPointRepository endPointRepository;
     private final PermissionRepository permissionRepository;
     private final PermissionHasEndPointRepository permissionHasEndPointRepository;
+    private final RoleRepository roleRepository;
 
     public void saveEndPoint(EndPointEntity endPointEntity) {
         log.info("Saving endPointEntity: {}", endPointEntity);
@@ -47,6 +50,16 @@ public class RoleService {
     public Boolean existPermissionHasEndpointByName(String permissionName, String endPointName) {
         log.info("Checking if Permission exists by name: {} & {}", permissionName, endPointName);
         return permissionHasEndPointRepository.existsByPermission_NameAndEndPoint_Name(permissionName, endPointName);
+    }
+
+    public void saveRole(RoleEntity entity) {
+        log.info("Saving RoleEntity: {}", entity);
+        roleRepository.save(entity);
+    }
+
+    public Boolean existRoleByName(String name) {
+        log.info("Checking if Role exists by name: {}", name);
+        return roleRepository.existsByName(name);
     }
 
 }
