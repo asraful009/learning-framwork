@@ -60,6 +60,31 @@ public class EndPointSeederService {
                         .endPoint(ApiPath.HomePath.API_HOME)
                         .method(EndPointMethod.GET)
                         .build());
+        permissionHasEndPointEntities.add(
+                EndPointEntity.builder()
+                        .name("API_HOME_1_GET")
+                        .endPoint(ApiPath.HomePath.API_PAGE_1)
+                        .method(EndPointMethod.GET)
+                        .build());
+        permissionHasEndPointEntities.add(
+                EndPointEntity.builder()
+                        .name("API_HOME_2_GET")
+                        .endPoint(ApiPath.HomePath.API_PAGE_2)
+                        .method(EndPointMethod.GET)
+                        .build());
+        permissionHasEndPointEntities.add(
+                EndPointEntity.builder()
+                        .name("API_HOME_3_GET")
+                        .endPoint(ApiPath.HomePath.API_PAGE_3)
+                        .method(EndPointMethod.GET)
+                        .build());
+        permissionHasEndPointEntities.add(
+                EndPointEntity.builder()
+                        .name("API_HOME_4_GET")
+                        .endPoint(ApiPath.HomePath.API_PAGE_4)
+                        .method(EndPointMethod.GET)
+                        .build());
+
         return permissionHasEndPointEntities;
     }
 }

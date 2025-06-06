@@ -11,5 +11,9 @@ public class ApiPath {
 
     public static class HomePath {
         public static final String API_HOME = API_BASE + "/home";
+        public static final String API_PAGE_1 = API_HOME + "/page1";
+        public static final String API_PAGE_2 = API_HOME + "/page2";
+        public static final String API_PAGE_3 = API_HOME + "/page3";
+        public static final String API_PAGE_4 = API_HOME + "/page4";
     }
 }
