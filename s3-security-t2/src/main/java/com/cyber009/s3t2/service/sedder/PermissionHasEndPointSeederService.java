@@ -53,6 +53,7 @@ public class PermissionHasEndPointSeederService {
     private List<PermissionNameHasEndPointName> g() {
         List<PermissionNameHasEndPointName> entities = new LinkedList<>();
         entities.add(new PermissionNameHasEndPointName("REGISTER", "API_AUTH_REGISTER_POST"));
+        entities.add(new PermissionNameHasEndPointName("REGISTER", "API_AUTH_REGISTER_VALIDATION_PATCH"));
         return entities;
     }
 

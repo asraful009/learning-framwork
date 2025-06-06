@@ -5,6 +5,7 @@ public class ApiPath {
     public static class AuthPath {
         public static final String API_AUTH = API_BASE+ "/auth";
         public static final String API_AUTH_REGISTER = API_AUTH + "/register";
+        public static final String API_AUTH_REGISTER_VALIDATION = API_AUTH_REGISTER + "/validation";
         public static final String API_AUTH_AUTHENTICATE = API_AUTH + "/authenticate";
     }
 

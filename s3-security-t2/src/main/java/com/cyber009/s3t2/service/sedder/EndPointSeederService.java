@@ -50,6 +50,12 @@ public class EndPointSeederService {
                         .build());
         permissionHasEndPointEntities.add(
                 EndPointEntity.builder()
+                        .name("API_AUTH_REGISTER_VALIDATION_PATCH")
+                        .endPoint(ApiPath.AuthPath.API_AUTH_REGISTER_VALIDATION)
+                        .method(EndPointMethod.PATCH)
+                        .build());
+        permissionHasEndPointEntities.add(
+                EndPointEntity.builder()
                         .name("API_HOME_GET")
                         .endPoint(ApiPath.HomePath.API_HOME)
                         .method(EndPointMethod.GET)

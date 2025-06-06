@@ -5,16 +5,15 @@ import com.cyber009.s3t2.dto.AuthenticationDto;
 import com.cyber009.s3t2.entity.UserEntity;
 import com.cyber009.s3t2.param.AuthenticationParam;
 import com.cyber009.s3t2.param.RegisterParam;
+import com.cyber009.s3t2.param.RegisterValidationParam;
 import com.cyber009.s3t2.repository.UserRepository;
 import com.cyber009.s3t2.service.JwtService;
 import com.cyber009.s3t2.service.PasswordService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -42,6 +41,12 @@ public class AuthController {
         return AuthenticationDto.builder()
                 .token(jwtToken)
                 .build();
+    }
+
+    @PatchMapping(value = ApiPath.AuthPath.API_AUTH_REGISTER_VALIDATION)
+    public ResponseEntity<String> registerValidation(@RequestBody RegisterValidationParam request) {
+
+        return ResponseEntity.ok("Validated to the S3T2 application!");
     }
 
     @PostMapping(ApiPath.AuthPath.API_AUTH_AUTHENTICATE)
