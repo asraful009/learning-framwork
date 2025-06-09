@@ -1,9 +1,9 @@
 package com.cyber009.s3t2.service.seeder;
 
-import com.cyber009.s3t2.entity.*;
-import com.cyber009.s3t2.repository.EndPointRepository;
+import com.cyber009.s3t2.entity.PermissionEntity;
+import com.cyber009.s3t2.entity.RoleEntity;
+import com.cyber009.s3t2.entity.RoleHasPermissionEntity;
 import com.cyber009.s3t2.repository.PermissionRepository;
-import com.cyber009.s3t2.repository.RoleHasPermissionRepository;
 import com.cyber009.s3t2.repository.RoleRepository;
 import com.cyber009.s3t2.service.RoleService;
 import lombok.RequiredArgsConstructor;
