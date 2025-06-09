@@ -60,6 +60,7 @@ public class AuthController {
                 userEntity.getPassword())) {
             throw new BadCredentialsException("Invalid credentials");
         }
+
         var jwtToken = jwtService.generateToken(userEntity);
         return AuthenticationDto.builder()
                 .token(jwtToken)

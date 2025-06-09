@@ -1,5 +1,6 @@
 package com.cyber009.s3t2.service;
 
+import com.cyber009.s3t2.utility.GenerateHash;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -11,9 +12,11 @@ import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.function.Function;
 
 @Service
@@ -59,9 +62,16 @@ public class JwtService {
             UserDetails userDetails,
             long expiration
     ) {
+        String secretKeyWithPepper = secretKey + pepper;
+        String sessionId = GenerateHash.hash(userDetails.getUsername()
+                + new Date(System.currentTimeMillis())
+                + new Date(System.currentTimeMillis() + expiration)
+                + new Random().nextGaussian(),
+                secretKeyWithPepper);
+
         return Jwts.builder()
                 .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())
+                .setSubject(sessionId)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS512)
@@ -94,4 +104,6 @@ public class JwtService {
         byte[] keyBytes = secretKeyWithPepper.getBytes(StandardCharsets.UTF_8); //Decoders.BASE64.decode(secretKeyWithPepper);
         return Keys.hmacShaKeyFor(keyBytes);
     }
+
+
 }

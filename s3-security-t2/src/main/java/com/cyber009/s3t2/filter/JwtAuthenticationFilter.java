@@ -1,5 +1,7 @@
 package com.cyber009.s3t2.filter;
 
+import com.cyber009.s3t2.entity.UserEntity;
+import com.cyber009.s3t2.entity.UserLoginSessionEntity;
 import com.cyber009.s3t2.service.JwtService;
 import com.cyber009.s3t2.service.UserService;
 import jakarta.servlet.FilterChain;
@@ -32,7 +34,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
-        final String userEmail;
+        final String sessionId;
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
@@ -40,10 +42,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         jwt = authHeader.substring(7);
-        userEmail = jwtService.extractUsername(jwt);
+        sessionId = jwtService.extractUsername(jwt);
 
-        if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+        if (sessionId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UserLoginSessionEntity sessionEntity = this.userDetailsService.loadUserBySessionId(sessionId);
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(sessionEntity.getEmail());
             if (jwtService.isTokenValid(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
