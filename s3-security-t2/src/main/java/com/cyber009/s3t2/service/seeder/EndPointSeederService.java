@@ -1,4 +1,4 @@
-package com.cyber009.s3t2.service.sedder;
+package com.cyber009.s3t2.service.seeder;
 
 import com.cyber009.s3t2.constance.ApiPath;
 import com.cyber009.s3t2.entity.EndPointEntity;
@@ -39,49 +39,49 @@ public class EndPointSeederService {
         permissionHasEndPointEntities.add(
                 EndPointEntity.builder()
                         .name("API_AUTH_AUTHENTICATE_POST")
-                        .endPoint(ApiPath.AuthPath.API_AUTH_AUTHENTICATE)
+                        .endPoint(ApiPath.AuthPath.API_AUTH + ApiPath.AuthPath.API_AUTH_AUTHENTICATE)
                         .method(EndPointMethod.POST)
                         .build());
         permissionHasEndPointEntities.add(
                 EndPointEntity.builder()
                         .name("API_AUTH_REGISTER_POST")
-                        .endPoint(ApiPath.AuthPath.API_AUTH_REGISTER)
+                        .endPoint(ApiPath.AuthPath.API_AUTH + ApiPath.AuthPath.API_AUTH_REGISTER)
                         .method(EndPointMethod.POST)
                         .build());
         permissionHasEndPointEntities.add(
                 EndPointEntity.builder()
                         .name("API_AUTH_REGISTER_VALIDATION_PATCH")
-                        .endPoint(ApiPath.AuthPath.API_AUTH_REGISTER_VALIDATION)
+                        .endPoint(ApiPath.AuthPath.API_AUTH + ApiPath.AuthPath.API_AUTH_REGISTER_VALIDATION)
                         .method(EndPointMethod.PATCH)
                         .build());
         permissionHasEndPointEntities.add(
                 EndPointEntity.builder()
                         .name("API_HOME_GET")
-                        .endPoint(ApiPath.HomePath.API_HOME)
+                        .endPoint(ApiPath.HomePath.API_HOME + ApiPath.HomePath.API_HOME)
                         .method(EndPointMethod.GET)
                         .build());
         permissionHasEndPointEntities.add(
                 EndPointEntity.builder()
                         .name("API_HOME_1_GET")
-                        .endPoint(ApiPath.HomePath.API_PAGE_1)
+                        .endPoint(ApiPath.HomePath.API_HOME + ApiPath.HomePath.API_PAGE_1)
                         .method(EndPointMethod.GET)
                         .build());
         permissionHasEndPointEntities.add(
                 EndPointEntity.builder()
                         .name("API_HOME_2_GET")
-                        .endPoint(ApiPath.HomePath.API_PAGE_2)
+                        .endPoint(ApiPath.HomePath.API_HOME + ApiPath.HomePath.API_PAGE_2)
                         .method(EndPointMethod.GET)
                         .build());
         permissionHasEndPointEntities.add(
                 EndPointEntity.builder()
                         .name("API_HOME_3_GET")
-                        .endPoint(ApiPath.HomePath.API_PAGE_3)
+                        .endPoint(ApiPath.HomePath.API_HOME + ApiPath.HomePath.API_PAGE_3)
                         .method(EndPointMethod.GET)
                         .build());
         permissionHasEndPointEntities.add(
                 EndPointEntity.builder()
                         .name("API_HOME_4_GET")
-                        .endPoint(ApiPath.HomePath.API_PAGE_4)
+                        .endPoint(ApiPath.HomePath.API_HOME + ApiPath.HomePath.API_PAGE_4)
                         .method(EndPointMethod.GET)
                         .build());
 

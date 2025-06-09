@@ -11,19 +11,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "role_has_permissions", indexes = {
-        @Index(columnList = "role_id, permission_id")
+@Table(name = "user_has_roles", indexes = {
+        @Index(columnList = "role_id, user_id"),
+        @Index(columnList = "role_id"),
+        @Index(columnList = "user_id")
 })
-public class RoleHasPermissionEntity {
+public class UserHasRoleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id", nullable = false)
     private RoleEntity role;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "permission_id", nullable = false)
-    private PermissionEntity permission;
 }

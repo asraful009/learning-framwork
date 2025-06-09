@@ -1,13 +1,7 @@
 package com.cyber009.s3t2.service;
 
-import com.cyber009.s3t2.entity.EndPointEntity;
-import com.cyber009.s3t2.entity.PermissionEntity;
-import com.cyber009.s3t2.entity.PermissionHasEndPointEntity;
-import com.cyber009.s3t2.entity.RoleEntity;
-import com.cyber009.s3t2.repository.EndPointRepository;
-import com.cyber009.s3t2.repository.PermissionHasEndPointRepository;
-import com.cyber009.s3t2.repository.PermissionRepository;
-import com.cyber009.s3t2.repository.RoleRepository;
+import com.cyber009.s3t2.entity.*;
+import com.cyber009.s3t2.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,6 +14,7 @@ public class RoleService {
     private final EndPointRepository endPointRepository;
     private final PermissionRepository permissionRepository;
     private final PermissionHasEndPointRepository permissionHasEndPointRepository;
+    private final RoleHasPermissionRepository roleHasPermissionRepository;
     private final RoleRepository roleRepository;
 
     public void saveEndPoint(EndPointEntity endPointEntity) {
@@ -50,6 +45,16 @@ public class RoleService {
     public Boolean existPermissionHasEndpointByName(String permissionName, String endPointName) {
         log.info("Checking if Permission exists by name: {} & {}", permissionName, endPointName);
         return permissionHasEndPointRepository.existsByPermission_NameAndEndPoint_Name(permissionName, endPointName);
+    }
+
+    public void saveRoleHasPermissionRepository(RoleHasPermissionEntity entity) {
+        log.info("Saving Role Has Permission: {}", entity);
+        roleHasPermissionRepository.save(entity);
+    }
+
+    public Boolean existRoleHasPermissionByRoleNameAndPermission(String roleName, String permissionName) {
+        log.info("Checking if RoleHasPermission exists by name: {} & {}", roleName, permissionName);
+        return roleHasPermissionRepository.existsByRole_nameAndPermission_Name(roleName, permissionName);
     }
 
     public void saveRole(RoleEntity entity) {

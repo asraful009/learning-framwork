@@ -1,4 +1,4 @@
-package com.cyber009.s3t2.service.sedder;
+package com.cyber009.s3t2.service.seeder;
 
 import com.cyber009.s3t2.entity.EndPointEntity;
 import com.cyber009.s3t2.entity.PermissionEntity;
