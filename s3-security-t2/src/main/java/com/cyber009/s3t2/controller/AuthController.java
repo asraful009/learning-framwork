@@ -9,6 +9,7 @@ import com.cyber009.s3t2.param.RegisterValidationParam;
 import com.cyber009.s3t2.repository.UserRepository;
 import com.cyber009.s3t2.service.JwtService;
 import com.cyber009.s3t2.service.PasswordService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,7 +29,7 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
 
     @PostMapping(value = ApiPath.AuthPath.API_AUTH_REGISTER)
-    public AuthenticationDto register(@RequestBody RegisterParam request) {
+    public AuthenticationDto register(@RequestBody RegisterParam request) throws JsonProcessingException {
         var user = UserEntity.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
@@ -51,7 +52,7 @@ public class AuthController {
     }
 
     @PostMapping(ApiPath.AuthPath.API_AUTH_AUTHENTICATE)
-    public AuthenticationDto authenticate(@RequestBody AuthenticationParam request) {
+    public AuthenticationDto authenticate(@RequestBody AuthenticationParam request) throws JsonProcessingException {
         Optional<UserEntity> optionalUserEntity = userRepository.findByEmail(request.getEmail());
         if(optionalUserEntity.isEmpty()) {
             throw new BadCredentialsException("Invalid credentials");

@@ -1,10 +1,14 @@
 package com.cyber009.s3t2.service;
 
-import com.cyber009.s3t2.entity.UserEntity;
-import com.cyber009.s3t2.entity.UserHasRoleEntity;
-import com.cyber009.s3t2.entity.UserLoginSessionEntity;
+import com.cyber009.s3t2.dto.EndPointDto;
+import com.cyber009.s3t2.entity.*;
+import com.cyber009.s3t2.repository.PermissionHasEndPointRepository;
+import com.cyber009.s3t2.repository.RoleHasPermissionRepository;
+import com.cyber009.s3t2.repository.UserHasRoleRepository;
 import com.cyber009.s3t2.repository.UserSessionRepository;
 import com.cyber009.s3t2.utility.GenerateHash;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -25,6 +29,9 @@ import java.util.function.Function;
 public class JwtService {
 
     private final UserSessionRepository userSessionRepository;
+    private final UserHasRoleRepository userHasRoleRepository;
+    private final RoleHasPermissionRepository roleHasPermissionRepository;
+    private final PermissionHasEndPointRepository permissionHasEndPointRepository;
     private final String secretKey;
     private final long jwtExpiration;
     private final String pepper;
@@ -33,12 +40,18 @@ public class JwtService {
             @Value("${jwt.secret-key}") String secretKey,
             @Value("${jwt.expiration}") long jwtExpiration,
             @Value("${jwt.pepper}") String pepper,
-            UserSessionRepository userSessionRepository
+            UserSessionRepository userSessionRepository,
+            UserHasRoleRepository userHasRoleRepository,
+            RoleHasPermissionRepository roleHasPermissionRepository,
+            PermissionHasEndPointRepository permissionHasEndPointRepository
     ) {
         this.secretKey = secretKey;
         this.jwtExpiration = jwtExpiration;
         this.pepper = pepper;
         this.userSessionRepository = userSessionRepository;
+        this.userHasRoleRepository = userHasRoleRepository;
+        this.roleHasPermissionRepository = roleHasPermissionRepository;
+        this.permissionHasEndPointRepository = permissionHasEndPointRepository;
     }
 
     public String extractUsername(String token) {
@@ -110,16 +123,52 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateSession(UserEntity userEntity) {
+    public String generateSession(UserEntity userEntity) throws JsonProcessingException {
         String secretKeyWithPepper = secretKey + pepper;
         String sessionId = GenerateHash.hashSha512(userEntity.getUsername()
                 + LocalDateTime.now()
                 + new Random().nextGaussian(),
                 secretKeyWithPepper);
+        List<EndPointDto> endPointEntities = new LinkedList<>();
+        List<UserHasRoleEntity> userRoleEntities =
+                userHasRoleRepository.findAllByUserId(userEntity.getId());
+        for (UserHasRoleEntity e: userRoleEntities) {
+            if(e.getRole() == null) {
+                log.warn("UserHasRoleEntity with null role found for user: {}", userEntity.getUsername());
+                continue;
+            }
+            List<RoleHasPermissionEntity> permissionEntities =
+                    roleHasPermissionRepository.findAllByRoleId(e.getRole().getId());
+            for (RoleHasPermissionEntity permissionEntity : permissionEntities) {
+                PermissionEntity permission = permissionEntity.getPermission();
+                if (permission != null) {
+                    List<PermissionHasEndPointEntity> endPoints =
+                            permissionHasEndPointRepository.findAllByPermissionId(permission.getId());
+                    if(endPoints != null && !endPoints.isEmpty()) {
+                        for (PermissionHasEndPointEntity endPoint : endPoints) {
+                            EndPointEntity endPointEntity = endPoint.getEndPoint();
+                            if (endPointEntity != null && !endPointEntities.contains(endPointEntity)) {
+                                endPointEntities.add(
+                                    EndPointDto.builder()
+                                        .id(endPointEntity.getId())
+                                        .name(endPointEntity.getName())
+                                        .method(endPointEntity.getMethod())
+                                        .endPoint(endPointEntity.getEndPoint())
+                                    .build()
+                                );
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        log.info("endPointEntities: {}", endPointEntities);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonString = objectMapper.writeValueAsString(endPointEntities);
         UserLoginSessionEntity entity = UserLoginSessionEntity.builder()
                 .sessionId(sessionId)
                 .email(userEntity.getUsername())
-                .roleJson("[]")
+                .roleJson(jsonString)
                 .build();
         userSessionRepository.save(entity);
         return sessionId;

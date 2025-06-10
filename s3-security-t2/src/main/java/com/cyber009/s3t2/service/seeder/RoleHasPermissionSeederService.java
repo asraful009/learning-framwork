@@ -52,8 +52,8 @@ public class RoleHasPermissionSeederService {
 
     private List<RoleNameHasPermissionName> g() {
         List<RoleNameHasPermissionName> entities = new LinkedList<>();
-        entities.add(new RoleNameHasPermissionName("Register", "REGISTER"));
-        entities.add(new RoleNameHasPermissionName("Home", "HOME"));
+        entities.add(new RoleNameHasPermissionName("REGISTER", "REGISTER"));
+        entities.add(new RoleNameHasPermissionName("HOME", "HOME"));
         return entities;
     }
 

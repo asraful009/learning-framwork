@@ -1,4 +1,4 @@
-package com.cyber009.s3t2.entity;
+package com.cyber009.s3t2.dto;
 
 import com.cyber009.s3t2.enums.EndPointMethod;
 import jakarta.persistence.*;
@@ -13,14 +13,8 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "end_points")
-public class EndPointEntity implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class EndPointDto implements Serializable {
     private Integer id;
-
-    @Column(name = "name", nullable = false, unique = true)
     private String name;
     private EndPointMethod method;
     private String endPoint;
