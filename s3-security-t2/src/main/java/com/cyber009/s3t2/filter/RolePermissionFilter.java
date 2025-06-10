@@ -1,5 +1,6 @@
 package com.cyber009.s3t2.filter;
 
+import com.cyber009.s3t2.constance.PublicApiPath;
 import com.cyber009.s3t2.dto.EndPointDto;
 import com.cyber009.s3t2.entity.UserLoginSessionEntity;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -29,10 +30,14 @@ public class RolePermissionFilter extends OncePerRequestFilter {
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
         log.info("RolePermissionFilter: Processing request for URL: {}", request.getRequestURI());
+        if(PublicApiPath.PUBLIC_API_PATHS.contains(request.getRequestURI())) {
+            filterChain.doFilter(request, response);
+            return;
+        }
         UserLoginSessionEntity sessionInfo = (UserLoginSessionEntity) request.getAttribute("session_info");
         log.info("RolePermissionFilter: Session info: {}", sessionInfo);
         if( sessionInfo == null) {
-            filterChain.doFilter(request, response);
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");
             return;
         }
         ObjectMapper mapper = new ObjectMapper();
