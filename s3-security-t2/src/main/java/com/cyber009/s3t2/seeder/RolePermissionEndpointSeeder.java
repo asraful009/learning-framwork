@@ -16,6 +16,8 @@ public class RolePermissionEndpointSeeder implements CommandLineRunner {
     private final PermissionHasEndPointSeederService permissionHasEndPointSeederService;
     private final RoleSeederService roleSeederService;
     private final RoleHasPermissionSeederService roleHasPermissionSeederService;
+    private final UserHasRoleSeederService userHasRoleSeederService;
+    private final UserSeederService userSeederService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -24,6 +26,8 @@ public class RolePermissionEndpointSeeder implements CommandLineRunner {
         permissionHasEndPointSeederService.seedPermissionHasEndPoint();
         roleSeederService.seedRole();
         roleHasPermissionSeederService.seedRoleHasPermission();
+        userSeederService.seedUser();
+        userHasRoleSeederService.seedUserHasRole();
     }
 
 

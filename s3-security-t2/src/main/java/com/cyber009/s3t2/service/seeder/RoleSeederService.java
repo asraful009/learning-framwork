@@ -36,11 +36,13 @@ public class RoleSeederService {
         List<RoleEntity> entities = new LinkedList<>();
         entities.add(
                 RoleEntity.builder()
-                        .name("Register")
+                        .name("REGISTER")
+                        .displayName("Register")
                         .build());
         entities.add(
                 RoleEntity.builder()
-                        .name("Home")
+                        .name("HOME")
+                        .displayName("Home")
                         .build());
         return entities;
     }

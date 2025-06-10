@@ -15,6 +15,7 @@ public class RoleService {
     private final PermissionRepository permissionRepository;
     private final PermissionHasEndPointRepository permissionHasEndPointRepository;
     private final RoleHasPermissionRepository roleHasPermissionRepository;
+    private final UserHasRoleRepository userHasRoleRepository;
     private final RoleRepository roleRepository;
 
     public void saveEndPoint(EndPointEntity endPointEntity) {
@@ -55,6 +56,16 @@ public class RoleService {
     public Boolean existRoleHasPermissionByRoleNameAndPermission(String roleName, String permissionName) {
         log.info("Checking if RoleHasPermission exists by name: {} & {}", roleName, permissionName);
         return roleHasPermissionRepository.existsByRole_nameAndPermission_Name(roleName, permissionName);
+    }
+
+    public void saveUserHasRoleRepository(UserHasRoleEntity entity) {
+        log.info("Saving User Has Role: {}", entity);
+        userHasRoleRepository.save(entity);
+    }
+
+    public Boolean existUserHasPermissionByUserEmailAndRoleName(String email, String roleName) {
+        log.info("Checking if UserHasPermissionByUserEmailAndRoleName exists by name: {} & {}", email, roleName);
+        return userHasRoleRepository.existsByUser_EmailAndRole_Name(email, roleName);
     }
 
     public void saveRole(RoleEntity entity) {
