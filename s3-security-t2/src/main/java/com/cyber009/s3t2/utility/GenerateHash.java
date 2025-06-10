@@ -8,15 +8,15 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
 public class GenerateHash {
-    public static String hash(String message, String secretKey) {
+    public static String hashSha512(String message, String secretKey) {
         try {
-            Mac hmac = Mac.getInstance("HmacSHA256");
+            Mac hmac = Mac.getInstance("HmacSHA512");
             SecretKeySpec keySpec = new SecretKeySpec(secretKey.getBytes(StandardCharsets.UTF_8), "HmacSHA512");
             hmac.init(keySpec);
             byte[] hmacBytes = hmac.doFinal(message.getBytes(StandardCharsets.UTF_8));
             return Base64.getEncoder().encodeToString(hmacBytes);
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("HMAC SHA-256 algorithm not found", e);
+            throw new RuntimeException("HMAC SHA-512 algorithm not found", e);
         } catch (InvalidKeyException e) {
             throw new RuntimeException(e);
         }

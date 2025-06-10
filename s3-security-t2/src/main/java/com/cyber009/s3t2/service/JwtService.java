@@ -1,5 +1,9 @@
 package com.cyber009.s3t2.service;
 
+import com.cyber009.s3t2.entity.UserEntity;
+import com.cyber009.s3t2.entity.UserHasRoleEntity;
+import com.cyber009.s3t2.entity.UserLoginSessionEntity;
+import com.cyber009.s3t2.repository.UserSessionRepository;
 import com.cyber009.s3t2.utility.GenerateHash;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -13,16 +17,14 @@ import org.springframework.stereotype.Service;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.function.Function;
 
 @Service
 @Slf4j
 public class JwtService {
 
+    private final UserSessionRepository userSessionRepository;
     private final String secretKey;
     private final long jwtExpiration;
     private final String pepper;
@@ -30,11 +32,13 @@ public class JwtService {
     public JwtService(
             @Value("${jwt.secret-key}") String secretKey,
             @Value("${jwt.expiration}") long jwtExpiration,
-            @Value("${jwt.pepper}") String pepper
+            @Value("${jwt.pepper}") String pepper,
+            UserSessionRepository userSessionRepository
     ) {
         this.secretKey = secretKey;
         this.jwtExpiration = jwtExpiration;
         this.pepper = pepper;
+        this.userSessionRepository = userSessionRepository;
     }
 
     public String extractUsername(String token) {
@@ -46,28 +50,24 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+    public String generateToken(String sessionId) {
+        return generateToken(new HashMap<>(), sessionId);
     }
 
     public String generateToken(
             Map<String, Object> extraClaims,
-            UserDetails userDetails
+            String sessionId
     ) {
-        return buildToken(extraClaims, userDetails, jwtExpiration);
+        return buildToken(extraClaims, sessionId, jwtExpiration);
     }
 
     private String buildToken(
             Map<String, Object> extraClaims,
-            UserDetails userDetails,
+            String sessionId,
             long expiration
     ) {
-        String secretKeyWithPepper = secretKey + pepper;
-        String sessionId = GenerateHash.hash(userDetails.getUsername()
-                + new Date(System.currentTimeMillis())
-                + new Date(System.currentTimeMillis() + expiration)
-                + new Random().nextGaussian(),
-                secretKeyWithPepper);
+
+
 
         return Jwts.builder()
                 .setClaims(extraClaims)
@@ -105,5 +105,20 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
+    public String generateSession(UserEntity userEntity) {
+        String secretKeyWithPepper = secretKey + pepper;
+        String sessionId = GenerateHash.hashSha512(userEntity.getUsername()
+                + LocalDateTime.now()
+                + new Random().nextGaussian(),
+                secretKeyWithPepper);
+        List<UserHasRoleEntity> roles = userEntity.getUserHasRoles();
+        UserLoginSessionEntity entity = UserLoginSessionEntity.builder()
+                .sessionId(sessionId)
+                .email(userEntity.getUsername())
+                .roleJson("[]")
+                .build();
+        userSessionRepository.save(entity);
+        return sessionId;
+    }
 
 }

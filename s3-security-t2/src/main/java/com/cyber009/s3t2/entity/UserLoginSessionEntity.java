@@ -21,7 +21,7 @@ public class UserLoginSessionEntity {
     @Column(nullable = false, unique = true, length = 1024)
     private String sessionId;
 
-    @Column(nullable = false, unique = true, length = 1024)
+    @Column(nullable = false, length = 1024)
     private String email;
 
     @Lob

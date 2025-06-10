@@ -37,7 +37,8 @@ public class AuthController {
                 .role("USER")
                 .build();
         userRepository.save(user);
-        var jwtToken = jwtService.generateToken(user);
+        String sessionId = jwtService.generateSession(user);
+        var jwtToken = jwtService.generateToken(sessionId);
         return AuthenticationDto.builder()
                 .token(jwtToken)
                 .build();
@@ -60,10 +61,12 @@ public class AuthController {
                 userEntity.getPassword())) {
             throw new BadCredentialsException("Invalid credentials");
         }
-
-        var jwtToken = jwtService.generateToken(userEntity);
+        String sessionId = jwtService.generateSession(userEntity);
+        var jwtToken = jwtService.generateToken(sessionId);
         return AuthenticationDto.builder()
                 .token(jwtToken)
                 .build();
     }
+
+
 }
