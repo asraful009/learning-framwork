@@ -79,8 +79,13 @@ public class JwtService {
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        final String sessionId = extractUsername(token);
+        Optional<UserLoginSessionEntity> opEntity = userSessionRepository.findOneBySessionId(sessionId);
+        if (opEntity.isEmpty()) {
+            log.warn("Session not found for token: {}", token);
+            return false;
+        }
+        return (opEntity.get().getEmail().equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
 
     private boolean isTokenExpired(String token) {
@@ -111,7 +116,6 @@ public class JwtService {
                 + LocalDateTime.now()
                 + new Random().nextGaussian(),
                 secretKeyWithPepper);
-        List<UserHasRoleEntity> roles = userEntity.getUserHasRoles();
         UserLoginSessionEntity entity = UserLoginSessionEntity.builder()
                 .sessionId(sessionId)
                 .email(userEntity.getUsername())
